@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kicks Mtaani</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Kicks Mtaani</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">Products</a>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="hero">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h2>Your Go-To Spot for Basketball Merch in Nakuru</h2>
+            <p>
+              We Bring the Heat — Jerseys, Snapbacks, Wristbands, Socks and
+              More. All Basketball. All Fire.
+            </p>
+            <a href="#products" class="btn">Shop Now</a>
+          </div>
+          <div class="hero-logo">
+            <img src="images/kicks-mtaani-logo.png" alt="Kicks Mtaani Logo" />
+          </div>
+        </div>
+      </section>
+
+      <section id="products">
+        <h2>What We Sell</h2>
+        <div class="product-grid" id="product-grid">
+          <p style="color: #888">Loading products...</p>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Find Us</h2>
+        <p>
+          Based in Nakuru. Hit us up to order — DM us on WhatsApp and we'll sort
+          you out.
+        </p>
+        <a
+          href="https://wa.me/254794444301?text=Hi%20Kicks%20Mtaani%2C%20I%27m%20interested%20in%20your%20merch!"
+          class="btn"
+          target="_blank"
+        >
+          Chat on WhatsApp
+        </a>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <h3>Kicks Mtaani</h3>
+        <p>Nakuru's Go-to Spot for Basketball Merch.</p>
+
+        <nav class="footer-nav">
+          <a href="#hero">Home</a>
+          <a href="#products">Products</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <a
+          href="https://wa.me/254794444301?text=Hi%20Kicks%20Mtaani%2C%20I%27m%20interested%20in%20your%20merch!"
+          target="_blank"
+          class="footer-whatsapp"
+        >
+          Chat on WhatsApp
+        </a>
+      </div>
+
+      <p class="footer-copy">© 2026 Kicks Mtaani. All rights reserved.</p>
+    </footer>
+    <script>
+      const API_URL = "https://kicks-mtaani-api.onrender.com/api";
+
+      async function loadProducts() {
+        try {
+          const res = await fetch(`${API_URL}/products`);
+          const products = await res.json();
+          const grid = document.getElementById("product-grid");
+
+          if (products.length === 0) {
+            grid.innerHTML = `<p style="color: #888;">No products available right now.</p>`;
+            return;
+          }
+
+          grid.innerHTML = products
+            .filter((p) => p.in_stock)
+            .map(
+              (p) => `
+          <div class="product-card">
+            ${
+              p.image_url
+                ? `<img src="${API_URL.replace("/api", "")}${p.image_url}" alt="${p.name}" />`
+                : `<div style="height:220px; background:#2a2a2a; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#555; margin-bottom:12px;">No Image</div>`
+            }
+            <h3>${p.name}</h3>
+            <p class="price">KSh ${p.price.toLocaleString()}</p>
+          </div>
+        `,
+            )
+            .join("");
+        } catch (error) {
+          document.getElementById("product-grid").innerHTML =
+            `<p style="color: #888;">Could not load products. Try again later.</p>`;
+        }
+      }
+
+      loadProducts();
+    </script>
+  </body>
+</html>
