@@ -79,7 +79,10 @@
       <p class="footer-copy">© 2026 Kicks Mtaani. All rights reserved.</p>
     </footer>
     <script>
-      const API_URL = "https://kicks-mtaani-api.onrender.com/api";
+      const API_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:")
+        ? "http://127.0.0.1:8000/api"
+        : "https://kicks-mtaani-api.onrender.com/api";
+
 
       function escapeHtml(str) {
         if (str === null || str === undefined) return "";
