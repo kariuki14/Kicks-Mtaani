@@ -1,9 +1,16 @@
-import requests
 import os
+import requests
+from dotenv import load_dotenv
 
-BASE_URL = "https://kicks-mtaani-api.onrender.com/api"
-API_KEY = "kicks-admin-key-nakuru"
-IMAGES_DIR = os.path.expanduser("~/kicks-mtaani/images")
+load_dotenv()
+
+BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:8000/api")
+API_KEY = os.getenv("ADMIN_API_KEY")
+if not API_KEY:
+    raise ValueError("ADMIN_API_KEY not set in .env file")
+default_images_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "docs", "images"))
+IMAGES_DIR = os.getenv("IMAGES_DIR", default_images_dir)
+
 
 products = [
     {"id": 1, "image": "Nike-Kyrie-4.jpeg"},

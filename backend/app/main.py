@@ -1,6 +1,10 @@
+import os
 from dotenv import load_dotenv
+
 load_dotenv()
-from fastapi import FastAPI
+
+from fastapi import FastAPI, Request
+from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.database import engine, Base
@@ -11,20 +15,42 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Kicks Mtaani API")
 
-# CORS — allows your frontend (GitHub Pages) to talk to this backend
+# Security headers middleware
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+    return response
+
+
+# CORS Configuration
+cors_origins_env = os.getenv(
+    "ALLOWED_ORIGINS",
+    "https://kariuki14.github.io,http://127.0.0.1:5500,http://localhost:5500,http://127.0.0.1:8000,http://localhost:8000"
+)
+allowed_origins = [origin.strip() for origin in cors_origins_env.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://kariuki14.github.io", "http://127.0.0.1:5500"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
-# Serve uploaded images as static files
-app.mount("/uploads", StaticFiles(directory="app/uploads"), name="uploads")
+# Ensure uploads directory exists and mount with absolute path
+UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "uploads"))
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 # Register routes
 app.include_router(routes.router, prefix="/api")
+
 
 @app.get("/")
 def root():

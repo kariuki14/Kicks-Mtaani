@@ -1,7 +1,13 @@
+import os
 import requests
+from dotenv import load_dotenv
 
-BASE_URL = "https://kicks-mtaani-api.onrender.com/api"
-API_KEY = "kicks-admin-key-nakuru"
+load_dotenv()
+
+BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:8000/api")
+API_KEY = os.getenv("ADMIN_API_KEY")
+if not API_KEY:
+    raise ValueError("ADMIN_API_KEY not set in .env file")
 
 products = [
     {
@@ -48,7 +54,7 @@ for product in products:
         json=product,
         headers={"X-API-Key": API_KEY}
     )
-    if response.status_code == 200:
+    if response.status_code in (200, 201):
         data = response.json()
         print(f"✅ Added: {data['name']} (id={data['id']})")
     else:

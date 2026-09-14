@@ -10,12 +10,63 @@
     body {
       background: #0a0a0a;
       color: #ffffff;
-      font-family: Arial, sans-serif;
-      padding: 40px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      padding: 40px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    h1 { color: #cc5500; margin-bottom: 8px; }
-    p.subtitle { color: #888; margin-bottom: 40px; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    h1 { color: #cc5500; font-size: 28px; }
+    p.subtitle { color: #888; font-size: 14px; margin-top: 4px; }
+
+    /* ── AUTH CARD ── */
+    .auth-bar {
+      background: #151515;
+      border: 1px solid #282828;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .auth-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .auth-input-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .auth-input-group input {
+      background: #0a0a0a;
+      border: 1px solid #333;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      width: 260px;
+      outline: none;
+    }
+
+    .auth-input-group input:focus { border-color: #cc5500; }
 
     /* ── ADD PRODUCT FORM ── */
     .form-section {
@@ -47,7 +98,7 @@
 
     .form-group label {
       font-size: 13px;
-      color: #888;
+      color: #aaa;
     }
 
     .form-group input,
@@ -69,21 +120,24 @@
     .form-group textarea { resize: vertical; height: 80px; }
 
     .btn {
-      padding: 10px 24px;
+      padding: 10px 20px;
       border: none;
       border-radius: 6px;
       font-size: 14px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, opacity 0.2s;
     }
 
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-primary { background: #cc5500; color: #fff; }
-    .btn-primary:hover { background: #e8590c; }
+    .btn-primary:hover:not(:disabled) { background: #e8590c; }
     .btn-danger { background: #dc2626; color: #fff; }
-    .btn-danger:hover { background: #b91c1c; }
+    .btn-danger:hover:not(:disabled) { background: #b91c1c; }
     .btn-warning { background: #d4a017; color: #000; }
-    .btn-warning:hover { background: #b8860b; }
+    .btn-warning:hover:not(:disabled) { background: #b8860b; }
+    .btn-secondary { background: #333; color: #eee; }
+    .btn-secondary:hover:not(:disabled) { background: #444; }
 
     /* ── PRODUCT TABLE ── */
     .products-section h2 {
@@ -92,12 +146,16 @@
       font-size: 18px;
     }
 
+    .table-container {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid #2a2a2a;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       background: #1a1a1a;
-      border-radius: 10px;
-      overflow: hidden;
     }
 
     thead {
@@ -120,12 +178,23 @@
       border-radius: 20px;
       font-size: 12px;
       font-weight: bold;
+      display: inline-block;
     }
 
     .badge-green { background: #14532d; color: #4ade80; }
     .badge-red { background: #450a0a; color: #f87171; }
 
-    .actions { display: flex; gap: 8px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .product-thumb {
+      width: 44px;
+      height: 44px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #2a2a2a;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
 
     /* ── TOAST NOTIFICATION ── */
     .toast {
@@ -139,155 +208,332 @@
       font-size: 14px;
       display: none;
       z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
 <body>
 
-  <h1>Kicks Mtaani Admin</h1>
-  <p class="subtitle">Manage your products — add, edit, delete.</p>
+  <header>
+    <div>
+      <h1>Kicks Mtaani Admin</h1>
+      <p class="subtitle">Secure management dashboard — Nakuru basketball merch.</p>
+    </div>
+  </header>
+
+  <!-- AUTHENTICATION STATUS & KEY INPUT -->
+  <div class="auth-bar">
+    <div class="auth-status" id="auth-status-indicator">
+      <span>🔒 Status:</span>
+      <span class="badge badge-red" id="auth-status-badge">Not Authenticated</span>
+    </div>
+    <div class="auth-input-group">
+      <input type="password" id="auth-secret-input" placeholder="Enter Admin API Key or JWT Token..." />
+      <button class="btn btn-primary" onclick="saveAuthSecret()">Save Secret</button>
+      <button class="btn btn-secondary" onclick="clearAuthSecret()">Clear</button>
+    </div>
+  </div>
 
   <!-- ADD PRODUCT FORM -->
   <div class="form-section">
     <h2>Add New Product</h2>
     <div class="form-grid">
       <div class="form-group">
-        <label>Product Name *</label>
-        <input type="text" id="new-name" placeholder="e.g. Nike Kyrie 5" />
+        <label for="new-name">Product Name *</label>
+        <input type="text" id="new-name" placeholder="e.g. Nike Kyrie 5 'Infrared'" />
       </div>
       <div class="form-group">
-        <label>Price (KSh) *</label>
-        <input type="number" id="new-price" placeholder="e.g. 1300" />
+        <label for="new-price">Price (KSh) *</label>
+        <input type="number" id="new-price" min="0" step="0.01" placeholder="e.g. 1300" />
       </div>
-      <div class="form-group">
-        <label>Description</label>
-        <textarea id="new-description" placeholder="Short description..."></textarea>
+      <div class="form-group" style="grid-column: 1 / -1;">
+        <label for="new-description">Description</label>
+        <textarea id="new-description" placeholder="Colorway, details, sizing..."></textarea>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+    <button class="btn btn-primary" id="btn-add-product" onclick="addProduct()">Add Product</button>
   </div>
 
   <!-- PRODUCTS TABLE -->
   <div class="products-section">
     <h2>Current Products</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Price (KSh)</th>
-          <th>Description</th>
-          <th>In Stock</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="products-table">
-        <tr><td colspan="6" style="text-align:center; color:#888;">Loading...</td></tr>
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Price (KSh)</th>
+            <th>Description</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="products-table">
+          <tr><td colspan="6" style="text-align:center; color:#888;">Loading products...</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <!-- HIDDEN FILE INPUT FOR IMAGE UPLOADS -->
+  <input type="file" id="image-upload-input" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="handleImageSelected(event)" />
 
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
   <script>
-    const API_URL = "http://127.0.0.1:8000/api";
-    const API_KEY = "kicks-admin-key-nakuru";
+    // Detect environment or fallback to current host / Render
+    const API_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? "http://127.0.0.1:8000/api"
+      : "https://kicks-mtaani-api.onrender.com/api";
 
-    // ── FETCH AND RENDER PRODUCTS ──
-    async function loadProducts() {
-      const res = await fetch(`${API_URL}/products`);
-      const products = await res.json();
-      const tbody = document.getElementById("products-table");
+    let loadedProducts = [];
+    let pendingUploadProductId = null;
 
-      if (products.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#888;">No products yet.</td></tr>`;
+    // ── HTML SANITIZER (PREVENTS XSS) ──
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // ── AUTHENTICATION MANAGEMENT ──
+    function getAuthHeaders() {
+      const secret = sessionStorage.getItem("kicks_admin_secret");
+      if (!secret) return {};
+      // If secret starts with ey (JWT token), send Bearer header, otherwise X-API-Key
+      if (secret.startsWith("ey")) {
+        return { "Authorization": `Bearer ${secret}` };
+      }
+      return { "X-API-Key": secret };
+    }
+
+    function updateAuthStatus() {
+      const secret = sessionStorage.getItem("kicks_admin_secret");
+      const badge = document.getElementById("auth-status-badge");
+      const input = document.getElementById("auth-secret-input");
+
+      if (secret) {
+        badge.className = "badge badge-green";
+        badge.textContent = "Authenticated";
+        input.value = secret;
+      } else {
+        badge.className = "badge badge-red";
+        badge.textContent = "Key Required";
+      }
+    }
+
+    function saveAuthSecret() {
+      const secret = document.getElementById("auth-secret-input").value.trim();
+      if (!secret) {
+        showToast("Please enter a valid API Key or JWT token", "error");
         return;
       }
+      sessionStorage.setItem("kicks_admin_secret", secret);
+      updateAuthStatus();
+      showToast("Authentication secret saved for this session");
+    }
 
-      tbody.innerHTML = products.map(p => `
-        <tr>
-          <td>${p.id}</td>
-          <td>${p.name}</td>
-          <td>KSh ${p.price.toLocaleString()}</td>
-          <td>${p.description || "—"}</td>
-          <td>
-            <span class="badge ${p.in_stock ? 'badge-green' : 'badge-red'}">
-              ${p.in_stock ? "In Stock" : "Out of Stock"}
-            </span>
-          </td>
-          <td class="actions">
-            <button class="btn btn-warning" onclick="toggleStock(${p.id}, ${p.in_stock})">
-              ${p.in_stock ? "Mark Out" : "Mark In"}
-            </button>
-            <button class="btn btn-danger" onclick="deleteProduct(${p.id}, '${p.name}')">
-              Delete
-            </button>
-          </td>
-        </tr>
-      `).join("");
+    function clearAuthSecret() {
+      sessionStorage.removeItem("kicks_admin_secret");
+      document.getElementById("auth-secret-input").value = "";
+      updateAuthStatus();
+      showToast("Authentication secret cleared");
+    }
+
+    // ── LOAD AND RENDER PRODUCTS ──
+    async function loadProducts() {
+      const tbody = document.getElementById("products-table");
+      try {
+        const res = await fetch(`${API_URL}/products`);
+        if (!res.ok) throw new Error(`Server returned ${res.status}`);
+        loadedProducts = await res.json();
+
+        if (loadedProducts.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#888;">No products in catalog yet.</td></tr>`;
+          return;
+        }
+
+        const backendBase = API_URL.replace("/api", "");
+
+        tbody.innerHTML = loadedProducts.map(p => {
+          const imgTag = p.image_url
+            ? `<img src="${backendBase}${p.image_url}" class="product-thumb" alt="${escapeHtml(p.name)}" />`
+            : `<span class="product-thumb" style="display:inline-flex; align-items:center; justify-content:center; font-size:10px; color:#666;">No Img</span>`;
+
+          return `
+            <tr>
+              <td>${p.id}</td>
+              <td>${imgTag}<strong>${escapeHtml(p.name)}</strong></td>
+              <td>KSh ${Number(p.price).toLocaleString()}</td>
+              <td style="color:#aaa;">${escapeHtml(p.description) || "—"}</td>
+              <td>
+                <span class="badge ${p.in_stock ? 'badge-green' : 'badge-red'}">
+                  ${p.in_stock ? "In Stock" : "Out of Stock"}
+                </span>
+              </td>
+              <td class="actions">
+                <button class="btn btn-warning" onclick="toggleStock(${p.id})">
+                  ${p.in_stock ? "Mark Out" : "Mark In"}
+                </button>
+                <button class="btn btn-secondary" onclick="triggerUpload(${p.id})">
+                  📷 Image
+                </button>
+                <button class="btn btn-danger" onclick="deleteProduct(${p.id})">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#f87171;">Failed to load products: ${escapeHtml(err.message)}</td></tr>`;
+      }
     }
 
     // ── ADD PRODUCT ──
     async function addProduct() {
       const name = document.getElementById("new-name").value.trim();
-      const price = parseFloat(document.getElementById("new-price").value);
+      const priceVal = document.getElementById("new-price").value;
+      const price = parseFloat(priceVal);
       const description = document.getElementById("new-description").value.trim();
 
-      if (!name || !price) {
-        showToast("Name and price are required", "error");
+      if (!name || isNaN(price) || price <= 0) {
+        showToast("Valid name and positive price are required", "error");
         return;
       }
 
-      const res = await fetch(`${API_URL}/products`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-Key": API_KEY
-        },
-        body: JSON.stringify({ name, price, description, in_stock: true })
-      });
+      const headers = {
+        "Content-Type": "application/json",
+        ...getAuthHeaders()
+      };
 
-      if (res.ok) {
-        document.getElementById("new-name").value = "";
-        document.getElementById("new-price").value = "";
-        document.getElementById("new-description").value = "";
-        showToast(`${name} added successfully`);
-        loadProducts();
-      } else {
-        showToast("Failed to add product", "error");
+      try {
+        const res = await fetch(`${API_URL}/products`, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({ name, price, description, in_stock: true })
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          showToast("Unauthorized: Please enter a valid Admin Key above", "error");
+          return;
+        }
+
+        if (res.ok) {
+          document.getElementById("new-name").value = "";
+          document.getElementById("new-price").value = "";
+          document.getElementById("new-description").value = "";
+          showToast(`"${name}" added successfully`);
+          loadProducts();
+        } else {
+          const err = await res.json();
+          showToast(err.detail || "Failed to add product", "error");
+        }
+      } catch (err) {
+        showToast("Network error while adding product", "error");
       }
     }
 
     // ── TOGGLE STOCK ──
-    async function toggleStock(id, currentStatus) {
-      const res = await fetch(`${API_URL}/products/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-Key": API_KEY
-        },
-        body: JSON.stringify({ in_stock: !currentStatus })
-      });
+    async function toggleStock(id) {
+      const product = loadedProducts.find(p => p.id === id);
+      if (!product) return;
 
-      if (res.ok) {
-        showToast(`Stock status updated`);
-        loadProducts();
+      try {
+        const res = await fetch(`${API_URL}/products/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeaders()
+          },
+          body: JSON.stringify({ in_stock: !product.in_stock })
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          showToast("Unauthorized: Admin credentials required", "error");
+          return;
+        }
+
+        if (res.ok) {
+          showToast(`Stock updated for ${product.name}`);
+          loadProducts();
+        } else {
+          showToast("Failed to update stock", "error");
+        }
+      } catch (err) {
+        showToast("Network error updating stock", "error");
       }
     }
 
     // ── DELETE PRODUCT ──
-    async function deleteProduct(id, name) {
-      if (!confirm(`Delete ${name}? This cannot be undone.`)) return;
+    async function deleteProduct(id) {
+      const product = loadedProducts.find(p => p.id === id);
+      const name = product ? product.name : `Product #${id}`;
 
-      const res = await fetch(`${API_URL}/products/${id}`, {
-        method: "DELETE",
-        headers: { "X-API-Key": API_KEY }
-      });
+      if (!confirm(`Delete ${name}? This action cannot be undone.`)) return;
 
-      if (res.ok) {
-        showToast(`${name} deleted`);
-        loadProducts();
+      try {
+        const res = await fetch(`${API_URL}/products/${id}`, {
+          method: "DELETE",
+          headers: getAuthHeaders()
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          showToast("Unauthorized: Admin credentials required", "error");
+          return;
+        }
+
+        if (res.ok) {
+          showToast(`${name} deleted successfully`);
+          loadProducts();
+        } else {
+          showToast("Failed to delete product", "error");
+        }
+      } catch (err) {
+        showToast("Network error deleting product", "error");
+      }
+    }
+
+    // ── IMAGE UPLOAD ──
+    function triggerUpload(productId) {
+      pendingUploadProductId = productId;
+      document.getElementById("image-upload-input").click();
+    }
+
+    async function handleImageSelected(event) {
+      const file = event.target.files[0];
+      if (!file || !pendingUploadProductId) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      showToast("Uploading image...");
+
+      try {
+        const res = await fetch(`${API_URL}/products/${pendingUploadProductId}/upload-image`, {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: formData
+        });
+
+        if (res.ok) {
+          showToast("Image uploaded successfully!");
+          loadProducts();
+        } else {
+          const err = await res.json();
+          showToast(err.detail || "Image upload failed", "error");
+        }
+      } catch (err) {
+        showToast("Error uploading image", "error");
+      } finally {
+        event.target.value = "";
+        pendingUploadProductId = null;
       }
     }
 
@@ -297,10 +543,11 @@
       toast.textContent = message;
       toast.style.background = type === "error" ? "#dc2626" : "#cc5500";
       toast.style.display = "block";
-      setTimeout(() => toast.style.display = "none", 3000);
+      setTimeout(() => { toast.style.display = "none"; }, 3500);
     }
 
-    // Load on page open
+    // Initialize
+    updateAuthStatus();
     loadProducts();
   </script>
 
