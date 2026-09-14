@@ -19,6 +19,7 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False, index=True)
+    category = Column(String(100), nullable=False, index=True, default="Other")
     price = Column(Numeric(10, 2), nullable=False)
     description = Column(String(2000), nullable=True)
     image_url = Column(String(500), nullable=True)

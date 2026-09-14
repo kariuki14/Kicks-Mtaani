@@ -11,7 +11,7 @@
       <h1>Kicks Mtaani</h1>
       <nav>
         <a href="#hero">Home</a>
-        <a href="#products">Products</a>
+        <a href="#products">Shop</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
@@ -35,6 +35,15 @@
 
       <section id="products">
         <h2>What We Sell</h2>
+        
+        <!-- Category Filter -->
+        <div class="category-filter" id="category-filter">
+          <button class="category-btn active" data-category="all">All</button>
+          <button class="category-btn" data-category="Shoes">Shoes</button>
+          <button class="category-btn" data-category="Apparel">Apparel</button>
+          <button class="category-btn" data-category="Accessories">Accessories</button>
+        </div>
+
         <div class="product-grid" id="product-grid">
           <p style="color: #888">Loading products...</p>
         </div>
@@ -83,6 +92,7 @@
         ? "http://127.0.0.1:8000/api"
         : "https://kicks-mtaani-api.onrender.com/api";
 
+      let currentCategory = "all";
 
       function escapeHtml(str) {
         if (str === null || str === undefined) return "";
@@ -94,14 +104,19 @@
           .replace(/'/g, "&#039;");
       }
 
-      async function loadProducts() {
+      async function loadProducts(category = "all") {
         try {
-          const res = await fetch(`${API_URL}/products?in_stock_only=true`);
+          let url = `${API_URL}/products?in_stock_only=true`;
+          if (category !== "all") {
+            url += `&category=${encodeURIComponent(category)}`;
+          }
+
+          const res = await fetch(url);
           const products = await res.json();
           const grid = document.getElementById("product-grid");
 
           if (!Array.isArray(products) || products.length === 0) {
-            grid.innerHTML = `<p style="color: #888;">No products available right now.</p>`;
+            grid.innerHTML = `<p style="color: #888;">No products available in this category.</p>`;
             return;
           }
 
@@ -132,7 +147,26 @@
         }
       }
 
-      loadProducts();
+      // Category filter handler
+      document.addEventListener("DOMContentLoaded", () => {
+        const categoryButtons = document.querySelectorAll(".category-btn");
+        
+        categoryButtons.forEach(btn => {
+          btn.addEventListener("click", () => {
+            // Remove active from all buttons
+            categoryButtons.forEach(b => b.classList.remove("active"));
+            // Add active to clicked button
+            btn.classList.add("active");
+            // Load products for selected category
+            const category = btn.dataset.category;
+            currentCategory = category;
+            loadProducts(category);
+          });
+        });
+
+        // Initial load
+        loadProducts();
+      });
     </script>
   </body>
 </html>

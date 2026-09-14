@@ -138,14 +138,17 @@ def get_current_user_profile(current_user: User = Depends(get_current_user)):
 @router.get("/products", response_model=List[ProductResponse])
 def get_products(
     in_stock_only: bool = False,
+    category: Optional[str] = None,
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db)
 ):
-    """Fetch list of products."""
+    """Fetch list of products with optional category filter."""
     query = db.query(Product)
     if in_stock_only:
         query = query.filter(Product.in_stock == True)
+    if category:
+        query = query.filter(Product.category == category)
     products = query.order_by(Product.id.asc()).offset(skip).limit(min(limit, 100)).all()
     return products
 

@@ -7,6 +7,7 @@ from datetime import datetime
 # ─── PRODUCT SCHEMAS ─────────────────────────────────────────────
 class ProductBase(BaseModel):
     name: str = Field(..., min_length=2, max_length=255, description="Product display name")
+    category: str = Field(default="Other", max_length=100, description="Product category (Shoes, Apparel, Accessories, Other)")
     price: Decimal = Field(..., gt=0, max_digits=10, decimal_places=2, description="Price in KSh")
     description: Optional[str] = Field(None, max_length=2000, description="Product description")
     image_url: Optional[str] = Field(None, max_length=500, description="Image URL or path")
@@ -19,6 +20,7 @@ class ProductCreate(ProductBase):
 
 class ProductUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=2, max_length=255)
+    category: Optional[str] = Field(None, max_length=100)
     price: Optional[Decimal] = Field(None, gt=0, max_digits=10, decimal_places=2)
     description: Optional[str] = Field(None, max_length=2000)
     image_url: Optional[str] = Field(None, max_length=500)

@@ -253,6 +253,48 @@ main {
   border-radius: 2px;
 }
 
+/* Category Filter (60% white surface, 30% black text, 10% accent active) */
+.category-filter {
+  display: flex;
+  gap: 12px;
+  margin: 24px 0 32px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.category-btn {
+  background-color: var(--bg-surface); /* 60% white */
+  color: var(--text-primary); /* 30% black text */
+  border: 2px solid var(--border-light);
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.category-btn:hover {
+  border-color: var(--text-secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.category-btn.active {
+  background-color: var(--accent-primary); /* 10% accent */
+  color: #ffffff;
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 14px var(--accent-glow);
+}
+
+.category-btn.active:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
