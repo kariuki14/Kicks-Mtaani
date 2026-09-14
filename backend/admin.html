@@ -5,12 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kicks Mtaani Admin</title>
   <style>
+    /* ══════════════════════════════════════════════════════════════════
+       60-30-10 COLOR PALETTE:
+       • 60% Dominant (Canvas / Whites): #ffffff & #f8f9fa
+       • 30% Secondary (Structure / Blacks): #0a0a0a & #121212
+       • 10% Accent (Energy / Orange): #ff5500
+       ══════════════════════════════════════════════════════════════════ */
+    :root {
+      --bg-canvas: #f8f9fa;
+      --bg-surface: #ffffff;
+      --border: #e5e7eb;
+      --border-dark: #27272a;
+      --text-main: #0a0a0a;
+      --text-muted: #6b7280;
+      --secondary-dark: #0a0a0a;
+      --accent: #ff5500;
+      --accent-hover: #e04b00;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #0a0a0a;
-      color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       padding: 40px 24px;
       max-width: 1200px;
       margin: 0 auto;
@@ -25,14 +43,25 @@
       gap: 16px;
     }
 
-    h1 { color: #cc5500; font-size: 28px; }
-    p.subtitle { color: #888; font-size: 14px; margin-top: 4px; }
+    h1 {
+      color: var(--secondary-dark);
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
 
     /* ── AUTH CARD ── */
     .auth-bar {
-      background: #151515;
-      border: 1px solid #282828;
-      border-radius: 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      border-radius: 12px;
       padding: 16px 20px;
       margin-bottom: 30px;
       display: flex;
@@ -47,6 +76,7 @@
       align-items: center;
       gap: 10px;
       font-size: 14px;
+      font-weight: 600;
     }
 
     .auth-input-group {
@@ -56,31 +86,37 @@
     }
 
     .auth-input-group input {
-      background: #0a0a0a;
-      border: 1px solid #333;
-      color: #fff;
-      padding: 8px 12px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 9px 12px;
       border-radius: 6px;
       font-size: 13px;
       width: 260px;
       outline: none;
+      transition: border-color 0.2s;
     }
 
-    .auth-input-group input:focus { border-color: #cc5500; }
+    .auth-input-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.15);
+    }
 
     /* ── ADD PRODUCT FORM ── */
     .form-section {
-      background: #1a1a1a;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
       padding: 24px;
-      border-radius: 10px;
       margin-bottom: 40px;
-      border: 1px solid #2a2a2a;
     }
 
     .form-section h2 {
-      color: #cc5500;
+      color: var(--secondary-dark);
       margin-bottom: 20px;
       font-size: 18px;
+      font-weight: 800;
     }
 
     .form-grid {
@@ -98,68 +134,74 @@
 
     .form-group label {
       font-size: 13px;
-      color: #aaa;
+      font-weight: 600;
+      color: #374151;
     }
 
     .form-group input,
     .form-group textarea {
-      background: #0a0a0a;
-      border: 1px solid #2a2a2a;
-      color: #fff;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-main);
       padding: 10px 12px;
       border-radius: 6px;
       font-size: 14px;
       outline: none;
+      transition: border-color 0.2s;
     }
 
     .form-group input:focus,
     .form-group textarea:focus {
-      border-color: #cc5500;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.15);
     }
 
     .form-group textarea { resize: vertical; height: 80px; }
 
     .btn {
-      padding: 10px 20px;
+      padding: 10px 22px;
       border: none;
       border-radius: 6px;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 800;
       cursor: pointer;
-      transition: background 0.2s, opacity 0.2s;
+      transition: all 0.2s ease;
     }
 
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-primary { background: #cc5500; color: #fff; }
-    .btn-primary:hover:not(:disabled) { background: #e8590c; }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 3px 10px rgba(255, 85, 0, 0.25); }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
     .btn-danger { background: #dc2626; color: #fff; }
     .btn-danger:hover:not(:disabled) { background: #b91c1c; }
-    .btn-warning { background: #d4a017; color: #000; }
-    .btn-warning:hover:not(:disabled) { background: #b8860b; }
-    .btn-secondary { background: #333; color: #eee; }
-    .btn-secondary:hover:not(:disabled) { background: #444; }
+    .btn-warning { background: #0a0a0a; color: #fff; }
+    .btn-warning:hover:not(:disabled) { background: #262626; }
+    .btn-secondary { background: #f3f4f6; color: #1f2937; border: 1px solid var(--border); }
+    .btn-secondary:hover:not(:disabled) { background: #e5e7eb; }
 
     /* ── PRODUCT TABLE ── */
     .products-section h2 {
-      color: #cc5500;
+      color: var(--secondary-dark);
       margin-bottom: 20px;
       font-size: 18px;
+      font-weight: 800;
     }
 
     .table-container {
       overflow-x: auto;
-      border-radius: 10px;
-      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      background: #1a1a1a;
+      background: var(--bg-surface);
     }
 
     thead {
-      background: #cc5500;
+      background: var(--secondary-dark);
       color: #fff;
     }
 
@@ -167,22 +209,25 @@
       padding: 14px 16px;
       text-align: left;
       font-size: 14px;
-      border-bottom: 1px solid #2a2a2a;
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--text-main);
     }
 
     tr:last-child td { border-bottom: none; }
-    tr:hover { background: #222; }
+    tr:hover { background: #f8fafc; }
 
     .badge {
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 12px;
-      font-weight: bold;
+      font-weight: 800;
       display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .badge-green { background: #14532d; color: #4ade80; }
-    .badge-red { background: #450a0a; color: #f87171; }
+    .badge-green { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+    .badge-red { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
 
     .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
@@ -190,10 +235,11 @@
       width: 44px;
       height: 44px;
       object-fit: cover;
-      border-radius: 4px;
-      background: #2a2a2a;
+      border-radius: 6px;
+      background: #f3f4f6;
       vertical-align: middle;
       margin-right: 8px;
+      border: 1px solid var(--border);
     }
 
     /* ── TOAST NOTIFICATION ── */
@@ -201,14 +247,16 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: #cc5500;
+      background: var(--secondary-dark);
       color: #fff;
       padding: 12px 24px;
       border-radius: 8px;
       font-size: 14px;
+      font-weight: 600;
       display: none;
       z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      border-left: 4px solid var(--accent);
     }
   </style>
 </head>
