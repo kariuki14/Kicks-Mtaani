@@ -27,18 +27,12 @@
   --accent-primary: #18181b;
   --accent-hover: #27272a;
   --accent-glow: rgba(24, 24, 27, 0.18);
-  --accent-subtle: #f0f2f5;
-  --badge-pepper: #27272a;
+  --wa-green: #25d366;
 
   /* Hierarchy & Shadows */
   --shadow-sm: 0 1px 3px rgba(20, 20, 22, 0.05);
   --shadow-md: 0 4px 16px rgba(20, 20, 22, 0.07);
   --shadow-lg: 0 14px 32px rgba(20, 20, 22, 0.1);
-  --shadow-hover: 0 18px 40px rgba(20, 20, 22, 0.14);
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-full: 9999px;
   --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -141,7 +135,6 @@ header h1 {
   color: var(--text-inverted-muted);
   cursor: pointer;
   padding: 8px;
-  border-radius: 0;
   transition: var(--transition);
   text-decoration: none;
   position: relative;
@@ -160,7 +153,7 @@ header h1 {
   position: absolute;
   top: 2px;
   right: 2px;
-  background: #ffffff;
+  background-color: var(--bg-surface);
   color: var(--secondary-black);
   font-size: 10px;
   font-weight: 800;
@@ -188,7 +181,6 @@ main {
   display: flex;
   align-items: center;
   background-color: var(--bg-surface);
-  border-radius: 0;
   margin-top: 28px;
   margin-bottom: 64px;
   padding: 60px 52px;
@@ -198,24 +190,6 @@ main {
 }
 
 /* Subtle hardwood & athletic court background accents */
-#hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 55%;
-  height: 100%;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(24, 24, 27, 0.018) 0px,
-    rgba(24, 24, 27, 0.018) 48px,
-    transparent 48px,
-    transparent 96px
-  );
-  z-index: 0;
-}
-
 .hero-court-lines {
   position: absolute;
   top: 0;
@@ -245,25 +219,6 @@ main {
 .hero-text {
   flex: 1.15;
 }
-
-/* Basketball hub pill badge */
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #141416;
-  color: #f4f4f5;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  padding: 6px 14px;
-  margin-bottom: 20px;
-  border-radius: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-
 
 .hero-text h2 {
   color: var(--text-primary);
@@ -328,7 +283,7 @@ main {
 
 .btn-outline-hero:hover {
   background: #18181b;
-  color: #ffffff;
+  color: var(--text-inverted);
   border-color: #18181b;
   transform: translateY(-2px);
   box-shadow: 0 4px 14px var(--accent-glow);
@@ -339,8 +294,6 @@ main {
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-light);
 }
 
 .hero-pillar {
@@ -351,7 +304,7 @@ main {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--text-secondary);
+  color: #1f2937;
 }
 
 .pillar-dot {
@@ -375,11 +328,10 @@ main {
   position: relative;
   width: 100%;
   max-width: 340px;
-  background-color: #ffffff;
-  border-radius: 0;
+  background-color: var(--bg-surface);
   overflow: hidden;
-  border: 1px solid var(--border-light);
-  box-shadow: 0 14px 30px rgba(20, 20, 22, 0.08), 0 2px 6px rgba(20, 20, 22, 0.04);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
   display: flex;
   flex-direction: column;
@@ -387,49 +339,13 @@ main {
 
 .hero-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(20, 20, 22, 0.12), 0 0 16px rgba(24, 24, 27, 0.04);
-}
-
-.hero-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 16px 6px;
-  z-index: 2;
-}
-
-.hero-card-pill {
-  background: var(--secondary-black);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  padding: 4px 10px;
-  border-radius: 0;
-}
-
-.hero-card-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #f4f4f5;
-  color: var(--text-primary);
-  border: 1px solid var(--border-light);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  padding: 4px 9px;
-  border-radius: 0;
+  box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.08);
 }
 
 .hero-card-img-wrap {
   width: 100%;
-  padding: 8px 16px 14px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ffffff;
+  background-color: var(--bg-surface);
 }
 
 .hero-card-img-wrap picture {
@@ -440,16 +356,14 @@ main {
 .hero-card-img {
   display: block;
   width: 100%;
-  max-width: 250px;
-  height: auto;
   aspect-ratio: 1 / 1;
-  object-fit: contain;
+  object-fit: cover;
+  transform: scale(1.15);
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: drop-shadow(0 12px 18px rgba(20, 20, 22, 0.1));
 }
 
 .hero-card:hover .hero-card-img {
-  transform: scale(1.04) rotate(-1deg);
+  transform: scale(1.2) rotate(-1deg);
 }
 
 .hero-card-footer {
@@ -462,19 +376,16 @@ main {
   gap: 12px;
 }
 
-.hero-card-brand {
-  flex-shrink: 0;
-}
-
-.hero-card-logo {
-  height: 20px;
-  width: auto;
-  display: block;
-  opacity: 0.85;
+.hero-card-footer {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
 }
 
 .hero-card-caption {
-  text-align: right;
+  text-align: left;
 }
 
 .hero-card-name {
@@ -500,7 +411,6 @@ main {
   background-color: var(--accent-primary);
   color: var(--text-inverted);
   padding: 11px 26px;
-  border-radius: 0;
   text-decoration: none;
   font-weight: 700;
   font-size: 13px;
@@ -567,7 +477,6 @@ main {
   padding: 8px 12px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
-  border-radius: 0;
   color: var(--text-primary);
   font-size: 13px;
   outline: none;
@@ -593,7 +502,6 @@ main {
   color: var(--text-primary);
   border: 1px solid var(--border-light);
   padding: 8px 18px;
-  border-radius: 0;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
@@ -632,7 +540,6 @@ main {
 .product-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
-  border-radius: 0;
   display: flex;
   flex-direction: column;
   transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
@@ -724,7 +631,6 @@ main {
 
 .modal-card {
   background-color: var(--bg-surface);
-  border-radius: 0;
   border: 1px solid var(--border-light);
   box-shadow: var(--shadow-lg);
   width: 100%;
@@ -779,7 +685,6 @@ main {
 .modal-img-wrap {
   aspect-ratio: 1 / 1;
   background-color: #f4f4f5;
-  border-radius: 0;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -857,14 +762,13 @@ main {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 12px 18px;
-  border-radius: 0;
   text-decoration: none;
   transition: var(--transition);
 }
 
 .modal-wa-btn:hover {
-  background-color: #25d366;
-  color: #ffffff;
+  background-color: var(--wa-green);
+  color: var(--text-inverted);
 }
 
 /* ─── FLOATING WHATSAPP BUTTON ─────────────────────────────────── */
@@ -876,8 +780,8 @@ main {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: #25d366;
-  color: #ffffff;
+  background-color: var(--wa-green);
+  color: var(--text-inverted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1118,7 +1022,6 @@ main {
 footer {
   background-color: var(--secondary-black);
   color: var(--text-inverted-muted);
-  border-radius: 0;
   margin: 0;
   width: 100%;
 }
@@ -1215,11 +1118,6 @@ footer {
     min-height: auto;
     margin-top: 16px;
     margin-bottom: 40px;
-  }
-
-  #hero::before {
-    width: 100%;
-    opacity: 0.5;
   }
 
   .hero-content {

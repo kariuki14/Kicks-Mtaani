@@ -9,7 +9,7 @@
        60-30-10 COLOR PALETTE:
        • 60% Dominant (Canvas / Whites): #ffffff & #f8f9fa
        • 30% Secondary (Structure / Blacks): #0a0a0a & #121212
-       • 10% Accent (Energy / Orange): #ff5500
+       • 10% Accent (Energy / Black): #18181b
        ══════════════════════════════════════════════════════════════════ */
     :root {
       --bg-canvas: #f6f7f9;
@@ -61,7 +61,6 @@
       background: var(--bg-surface);
       border: 1px solid var(--border);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-      border-radius: 0;
       margin-bottom: 30px;
       display: flex;
       justify-content: space-between;
@@ -85,11 +84,10 @@
     }
 
     .auth-input-group input {
-      background: #ffffff;
+      background: var(--bg-surface);
       border: 1px solid var(--border);
       color: var(--text-main);
       padding: 9px 12px;
-      border-radius: 0;
       font-size: 13px;
       width: 260px;
       outline: none;
@@ -106,7 +104,6 @@
       background: var(--bg-surface);
       border: 1px solid var(--border);
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-      border-radius: 0;
       padding: 24px;
       margin-bottom: 40px;
     }
@@ -140,11 +137,10 @@
     .form-group input,
     .form-group select,
     .form-group textarea {
-      background: #ffffff;
+      background: var(--bg-surface);
       border: 1px solid var(--border);
       color: var(--text-main);
       padding: 10px 12px;
-      border-radius: 0;
       font-size: 14px;
       outline: none;
       transition: border-color 0.2s;
@@ -162,7 +158,6 @@
     .btn {
       padding: 10px 22px;
       border: none;
-      border-radius: 0;
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
@@ -170,13 +165,11 @@
     }
 
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-primary { background: #000000; color: #fff; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); border: 1px solid #000000; }
+    .btn-primary, .btn-danger, .btn-warning { background: #000000; color: #fff; border: 1px solid #000000; }
+    .btn-primary { box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); }
     .btn-primary:hover:not(:disabled) { background: #27272a; transform: translateY(-1px); }
-    .btn-danger { background: #000000; color: #fff; border: 1px solid #000000; }
-    .btn-danger:hover:not(:disabled) { background: #27272a; }
-    .btn-warning { background: #000000; color: #fff; border: 1px solid #000000; }
-    .btn-warning:hover:not(:disabled) { background: #27272a; }
-    .btn-secondary { background: #ffffff; color: #000000; border: 1px solid #000000; }
+    .btn-danger:hover:not(:disabled), .btn-warning:hover:not(:disabled) { background: #27272a; }
+    .btn-secondary { background: var(--bg-surface); color: #000000; border: 1px solid #000000; }
     .btn-secondary:hover:not(:disabled) { background: #f4f4f5; }
 
     /* ── PRODUCT TABLE ── */
@@ -189,7 +182,6 @@
 
     .table-container {
       overflow-x: auto;
-      border-radius: 0;
       border: 1px solid var(--border);
       background: var(--bg-surface);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -219,7 +211,6 @@
 
     .badge {
       padding: 3px 8px;
-      border-radius: 0;
       font-size: 12px;
       font-weight: 600;
       display: inline-block;
@@ -227,7 +218,7 @@
     }
 
     .badge-green { background: #f4f4f5; color: #18181b; border: 1px solid #e4e4e7; }
-    .badge-red { background: #ffffff; color: #71717a; border: 1px solid #e4e4e7; }
+    .badge-red { background: var(--bg-surface); color: #71717a; border: 1px solid #e4e4e7; }
 
     .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
@@ -235,7 +226,6 @@
       width: 44px;
       height: 44px;
       object-fit: cover;
-      border-radius: 0;
       background: #f3f4f6;
       vertical-align: middle;
       margin-right: 8px;
@@ -250,7 +240,6 @@
       background: var(--secondary-dark);
       color: #fff;
       padding: 12px 24px;
-      border-radius: 0;
       font-size: 14px;
       font-weight: 600;
       display: none;
@@ -413,7 +402,7 @@
         loadedProducts = await res.json();
 
         if (loadedProducts.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#888;">No products in catalog yet.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888;">No products in catalog yet.</td></tr>`;
           return;
         }
 
