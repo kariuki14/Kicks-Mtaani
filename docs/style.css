@@ -181,67 +181,317 @@ main {
   padding: 0 32px 64px;
 }
 
-/* ─── 2. HERO SECTION (SALT CANVAS + PEPPER TEXT) ───────────────── */
+/* ─── 2. HERO SECTION (SALT & PEPPER BASKETBALL SHOWCASE) ──────── */
 #hero {
-  min-height: 72vh;
+  position: relative;
+  min-height: 70vh;
   display: flex;
   align-items: center;
   background-color: var(--bg-surface);
   border-radius: 0;
-  margin-top: 32px;
+  margin-top: 28px;
   margin-bottom: 64px;
-  padding: 64px 56px;
+  padding: 60px 52px;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+/* Subtle hardwood & athletic court background accents */
+#hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 55%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(24, 24, 27, 0.018) 0px,
+    rgba(24, 24, 27, 0.018) 48px,
+    transparent 48px,
+    transparent 96px
+  );
+  z-index: 0;
+}
+
+.hero-court-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect x='10' y='10' width='780' height='580' fill='none' stroke='%23121214' stroke-width='2'/%3E%3Ccircle cx='400' cy='300' r='90' fill='none' stroke='%23121214' stroke-width='2'/%3E%3Cline x1='400' y1='10' x2='400' y2='590' stroke='%23121214' stroke-width='2'/%3E%3Cpath d='M10 130 A240 240 0 0 1 10 470' fill='none' stroke='%23121214' stroke-width='2'/%3E%3Cpath d='M790 130 A240 240 0 0 0 790 470' fill='none' stroke='%23121214' stroke-width='2'/%3E%3Crect x='10' y='210' width='200' height='180' fill='none' stroke='%23121214' stroke-width='2'/%3E%3Crect x='590' y='210' width='200' height='180' fill='none' stroke='%23121214' stroke-width='2'/%3E%3Ccircle cx='210' cy='300' r='60' fill='none' stroke='%23121214' stroke-width='2'/%3E%3Ccircle cx='590' cy='300' r='60' fill='none' stroke='%23121214' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: -80px center;
+  background-size: 850px auto;
+  z-index: 0;
 }
 
 .hero-content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 56px;
+  gap: 52px;
   width: 100%;
 }
 
 .hero-text {
-  flex: 1.2;
+  flex: 1.15;
 }
+
+/* Basketball hub pill badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #141416;
+  color: #f4f4f5;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 6px 14px;
+  margin-bottom: 20px;
+  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
 
 .hero-text h2 {
   color: var(--text-primary);
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 900;
-  line-height: 1.18;
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
+  line-height: 1.14;
+  letter-spacing: -0.6px;
+  margin-bottom: 18px;
+  text-transform: uppercase;
 }
 
-.hero-text p {
-  font-size: 15px;
-  line-height: 1.65;
+.hero-subtext {
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--text-secondary);
   max-width: 500px;
   margin-bottom: 28px;
+  font-weight: 450;
 }
 
-.hero-logo {
-  flex: 0.9;
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  font-weight: 800;
+}
+
+.hero-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.hero-btn:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-outline-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1.5px solid var(--secondary-border);
+  padding: 11px 22px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: var(--transition);
+}
+
+.btn-outline-hero:hover {
+  background: #18181b;
+  color: #ffffff;
+  border-color: #18181b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px var(--accent-glow);
+}
+
+.hero-pillars {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
+}
+
+.hero-pillar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+
+.pillar-dot {
+  width: 5px;
+  height: 5px;
+  background-color: var(--secondary-black);
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.7;
+}
+
+/* ─── HERO VISUAL (RIGHT COLUMN PRODUCT CARD) ─────────────────── */
+.hero-visual {
+  flex: 1.05;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.hero-logo img {
+.hero-card {
+  position: relative;
   width: 100%;
   max-width: 340px;
-  height: auto;
-  filter: drop-shadow(0 12px 24px rgba(20, 20, 22, 0.08));
-  transition: transform 0.4s ease;
+  background-color: #ffffff;
+  border-radius: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 14px 30px rgba(20, 20, 22, 0.08), 0 2px 6px rgba(20, 20, 22, 0.04);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.hero-logo img:hover {
-  transform: scale(1.03) rotate(-1deg);
+.hero-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(20, 20, 22, 0.12), 0 0 16px rgba(24, 24, 27, 0.04);
+}
+
+.hero-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px 6px;
+  z-index: 2;
+}
+
+.hero-card-pill {
+  background: var(--secondary-black);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: 0;
+}
+
+.hero-card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f4f4f5;
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 9px;
+  border-radius: 0;
+}
+
+.hero-card-img-wrap {
+  width: 100%;
+  padding: 8px 16px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.hero-card-img-wrap picture {
+  display: block;
+  width: 100%;
+}
+
+.hero-card-img {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 12px 18px rgba(20, 20, 22, 0.1));
+}
+
+.hero-card:hover .hero-card-img {
+  transform: scale(1.04) rotate(-1deg);
+}
+
+.hero-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border-subtle);
+  background-color: #fafbfc;
+  gap: 12px;
+}
+
+.hero-card-brand {
+  flex-shrink: 0;
+}
+
+.hero-card-logo {
+  height: 20px;
+  width: auto;
+  display: block;
+  opacity: 0.85;
+}
+
+.hero-card-caption {
+  text-align: right;
+}
+
+.hero-card-name {
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin: 0 0 2px 0;
+}
+
+.hero-card-tag {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.3px;
 }
 
 /* ─── 3. BUTTONS (PEPPER / SALT) ────────────────────────────────── */
@@ -889,6 +1139,20 @@ footer {
   gap: 6px;
 }
 
+/* Footer designed logo */
+.footer-logo-wrap {
+  margin-bottom: 12px;
+}
+
+.footer-logo {
+  height: 48px;
+  width: auto;
+  max-width: 170px;
+  display: block;
+  object-fit: contain;
+  opacity: 0.95;
+}
+
 .footer-content h3 {
   color: var(--text-inverted);
   font-size: 20px;
@@ -947,28 +1211,46 @@ footer {
   }
 
   #hero {
-    padding: 40px 24px;
+    padding: 36px 24px;
     min-height: auto;
-    margin-top: 20px;
-    margin-bottom: 48px;
+    margin-top: 16px;
+    margin-bottom: 40px;
+  }
+
+  #hero::before {
+    width: 100%;
+    opacity: 0.5;
   }
 
   .hero-content {
-    flex-direction: column-reverse;
-    text-align: center;
+    flex-direction: column;
+    text-align: left;
     gap: 32px;
   }
 
   .hero-text h2 {
-    font-size: 34px;
+    font-size: 32px;
   }
 
-  .hero-text p {
-    margin: 0 auto 24px;
+  .hero-subtext {
+    margin: 0 0 22px;
+    max-width: 100%;
   }
 
-  .hero-logo img {
-    max-width: 240px;
+  .hero-visual {
+    width: 100%;
+  }
+
+  .hero-card {
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    margin-bottom: 24px;
+  }
+
+  .hero-pillars {
+    gap: 14px;
   }
 
   #contact {
@@ -989,6 +1271,38 @@ footer {
 }
 
 @media (max-width: 600px) {
+  #hero {
+    padding: 28px 18px;
+  }
+
+  .hero-text h2 {
+    font-size: 26px;
+    letter-spacing: -0.4px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .hero-btn,
+  .btn-outline-hero {
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-pillars {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .footer-logo {
+    height: 40px;
+  }
+
   header {
     flex-direction: row;
     flex-wrap: wrap;
