@@ -4,26 +4,92 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kicks Mtaani</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=4" />
   </head>
   <body>
     <header>
       <h1>Kicks Mtaani</h1>
-      <nav>
+      <nav class="nav-links">
         <a href="#hero">Home</a>
         <a href="#products">Shop</a>
         <a href="#contact">Contact</a>
       </nav>
+      <div class="header-actions">
+        <button
+          class="nav-icon-btn"
+          id="search-btn"
+          aria-label="Search"
+          title="Search"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <a
+          href="admin.html"
+          class="nav-icon-btn"
+          aria-label="User Account"
+          title="Account"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+        <button
+          class="nav-icon-btn cart-btn"
+          aria-label="Shopping Cart"
+          title="Cart"
+          onclick="openCartDrawer()"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path
+              d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+            ></path>
+          </svg>
+          <span class="cart-badge">0</span>
+        </button>
+      </div>
     </header>
 
     <main>
       <section id="hero">
         <div class="hero-content">
           <div class="hero-text">
-            <h2>Your Go-To Spot for Basketball Merch in Nakuru</h2>
+            <h2>Your Go-To Spot for Basketball Merch in Nakuru.</h2>
             <p>
-              We Bring the Heat — Jerseys, Snapbacks, Wristbands, Socks and
-              More. All Basketball. All Fire.
+              We Bring the Heat - Basketball Shoes. All Basketball. All Fire. More Fire Coming in The Future. Stay Tuned
+              for the Latest Drops and Exclusive Kicks Mtaani Merch.
             </p>
             <a href="#products" class="btn">Shop Now</a>
           </div>
@@ -34,65 +100,138 @@
       </section>
 
       <section id="products">
-        <h2>What We Sell</h2>
-        
+        <div class="products-header">
+          <h2>What We Sell</h2>
+          <div class="search-box">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search sneakers, apparel..."
+            />
+          </div>
+        </div>
+
         <!-- Category Filter -->
         <div class="category-filter" id="category-filter">
           <button class="category-btn active" data-category="all">All</button>
           <button class="category-btn" data-category="Shoes">Shoes</button>
           <button class="category-btn" data-category="Apparel">Apparel</button>
-          <button class="category-btn" data-category="Accessories">Accessories</button>
+          <button class="category-btn" data-category="Accessories">
+            Accessories
+          </button>
         </div>
 
         <div class="product-grid" id="product-grid">
           <p style="color: #888">Loading products...</p>
         </div>
       </section>
-
-      <section id="contact">
-        <h2>Find Us</h2>
-        <p>
-          Based in Nakuru. Hit us up to order — DM us on WhatsApp and we'll sort
-          you out.
-        </p>
-        <a
-          href="https://wa.me/254794444301?text=Hi%20Kicks%20Mtaani%2C%20I%27m%20interested%20in%20your%20merch!"
-          class="btn"
-          target="_blank"
-        >
-          Chat on WhatsApp
-        </a>
-      </section>
     </main>
 
-    <footer>
+    <footer id="contact">
       <div class="footer-content">
-        <h3>Kicks Mtaani</h3>
-        <p>Nakuru's Go-to Spot for Basketball Merch.</p>
+        <div class="footer-brand">
+          <h3>Kicks Mtaani</h3>
+          <p>Nakuru's Go-to Spot for Basketball Merch.</p>
+        </div>
 
         <nav class="footer-nav">
           <a href="#hero">Home</a>
           <a href="#products">Products</a>
           <a href="#contact">Contact</a>
         </nav>
-
-        <a
-          href="https://wa.me/254794444301?text=Hi%20Kicks%20Mtaani%2C%20I%27m%20interested%20in%20your%20merch!"
-          target="_blank"
-          class="footer-whatsapp"
-        >
-          Chat on WhatsApp
-        </a>
       </div>
 
       <p class="footer-copy">© 2026 Kicks Mtaani. All rights reserved.</p>
     </footer>
-    <script>
-      const API_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:")
-        ? "http://127.0.0.1:8000/api"
-        : "https://kicks-mtaani-api.onrender.com/api";
 
+    <!-- PRODUCT DETAILS MODAL -->
+    <div
+      class="modal-backdrop"
+      id="product-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="modal-card">
+        <button
+          class="modal-close-btn"
+          id="modal-close-btn"
+          aria-label="Close product details"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
+    <div class="cart-drawer" id="cart-drawer" aria-hidden="true">
+      <div class="cart-drawer-header">
+        <h3>Your Cart</h3>
+        <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="cart-drawer-items" id="cart-drawer-items">
+        <div class="cart-empty">
+          <p>Your cart is empty</p>
+          <button class="btn btn-secondary" onclick="closeCartDrawer()">Continue Shopping</button>
+        </div>
+      </div>
+      <div class="cart-drawer-footer" id="cart-drawer-footer" style="display: none;">
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cart-total-amount">KSh 0</span>
+        </div>
+        <button class="btn btn-primary cart-checkout-btn" onclick="checkoutViaWhatsApp()">Checkout via WhatsApp</button>
+        <button class="btn btn-secondary cart-clear-btn" onclick="clearCart()">Clear Cart</button>
+      </div>
+    </div>
+
+    <!-- FLOATING WHATSAPP BUTTON (BOTTOM LEFT) -->
+    <a
+      href="https://wa.me/254704168486?text=Hi%20Kicks%20Mtaani%2C%20I%27m%20interested%20in%20your%20merch!"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="floating-wa-btn"
+      aria-label="Chat on WhatsApp"
+      title="Chat on WhatsApp"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"
+        />
+      </svg>
+    </a>
+
+    <script>
+      const API_URL =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.protocol === "file:"
+          ? "http://127.0.0.1:8000/api"
+          : "https://kicks-mtaani-api.onrender.com/api";
+
+      let allLoadedProducts = [];
       let currentCategory = "all";
+      let searchQuery = "";
+      let currentModalProduct = null;
 
       function escapeHtml(str) {
         if (str === null || str === undefined) return "";
@@ -104,67 +243,397 @@
           .replace(/'/g, "&#039;");
       }
 
-      async function loadProducts(category = "all") {
+      /* ─── CART SYSTEM ─────────────────────────────────────────────── */
+      const MAX_QTY = 10;
+      let cart = [];
+
+      function initCart() {
         try {
-          let url = `${API_URL}/products?in_stock_only=true`;
-          if (category !== "all") {
-            url += `&category=${encodeURIComponent(category)}`;
-          }
+          const stored = localStorage.getItem("kicks_cart");
+          cart = stored ? JSON.parse(stored) : [];
+        } catch (e) {
+          cart = [];
+        }
+        updateCartBadge();
+      }
 
-          const res = await fetch(url);
-          const products = await res.json();
-          const grid = document.getElementById("product-grid");
+      function saveCart() {
+        localStorage.setItem("kicks_cart", JSON.stringify(cart));
+      }
 
-          if (!Array.isArray(products) || products.length === 0) {
-            grid.innerHTML = `<p style="color: #888;">No products available in this category.</p>`;
+      function getCartCount() {
+        return cart.reduce((sum, item) => sum + item.quantity, 0);
+      }
+
+      function getCartTotal() {
+        return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      }
+
+      function updateCartBadge() {
+        const badge = document.querySelector(".cart-badge");
+        if (badge) badge.textContent = getCartCount();
+      }
+
+      function addToCart(product) {
+        if (!product.in_stock) {
+          alert("This item is out of stock.");
+          return;
+        }
+        const existing = cart.find((item) => item.productId === product.id);
+        if (existing) {
+          if (existing.quantity >= MAX_QTY) {
+            alert("Maximum quantity (" + MAX_QTY + ") reached for this item.");
             return;
           }
+          existing.quantity++;
+        } else {
+          cart.push({
+            productId: product.id,
+            name: product.name,
+            price: product.price,
+            image_url: product.image_url,
+            quantity: 1,
+          });
+        }
+        saveCart();
+        updateCartBadge();
+      }
 
-          const backendBase = API_URL.replace("/api", "");
+      function removeFromCart(productId) {
+        cart = cart.filter((item) => item.productId !== productId);
+        saveCart();
+        updateCartBadge();
+        renderCartDrawer();
+      }
 
-          grid.innerHTML = products
-            .filter((p) => p.in_stock)
-            .map(
-              (p) => `
-          <div class="product-card">
-            <div class="product-card-img-wrap">
-              ${
-                p.image_url
-                  ? `<img src="${backendBase}${p.image_url}" alt="${escapeHtml(p.name)}" loading="lazy" />`
-                  : `<div style="height:100%; display:flex; align-items:center; justify-content:center; color:#9ca3af; font-size:13px; font-weight:700;">No Image</div>`
-              }
-              <span class="badge-in-stock">In Stock</span>
-            </div>
-            <h3>${escapeHtml(p.name)}</h3>
-            <p class="price">KSh ${Number(p.price).toLocaleString()}</p>
-          </div>
-        `,
-            )
-            .join("");
-        } catch (error) {
-          document.getElementById("product-grid").innerHTML =
-            `<p style="color: #888;">Could not load products. Try again later.</p>`;
+      function updateQuantity(productId, newQty) {
+        if (newQty < 1) {
+          removeFromCart(productId);
+          return;
+        }
+        if (newQty > MAX_QTY) {
+          alert("Maximum quantity is " + MAX_QTY + ".");
+          return;
+        }
+        const item = cart.find((item) => item.productId === productId);
+        if (item) {
+          item.quantity = newQty;
+          saveCart();
+          updateCartBadge();
+          renderCartDrawer();
         }
       }
 
-      // Category filter handler
+      function clearCart() {
+        if (cart.length === 0) return;
+        if (confirm("Clear all items from cart?")) {
+          cart = [];
+          saveCart();
+          updateCartBadge();
+          renderCartDrawer();
+        }
+      }
+
+      function openCartDrawer() {
+        renderCartDrawer();
+        document.getElementById("cart-drawer").classList.add("active");
+        document.getElementById("cart-drawer-backdrop").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeCartDrawer() {
+        document.getElementById("cart-drawer").classList.remove("active");
+        document.getElementById("cart-drawer-backdrop").classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function renderCartDrawer() {
+        const container = document.getElementById("cart-drawer-items");
+        const footer = document.getElementById("cart-drawer-footer");
+        const totalEl = document.getElementById("cart-total-amount");
+        const backendBase = API_URL.replace("/api", "");
+
+        if (cart.length === 0) {
+          container.innerHTML =
+            '<div class="cart-empty"><p>Your cart is empty</p><button class="btn btn-secondary" onclick="closeCartDrawer()">Continue Shopping</button></div>';
+          footer.style.display = "none";
+          return;
+        }
+
+        container.innerHTML = cart
+          .map((item) => {
+            const imgSrc = item.image_url
+              ? backendBase + item.image_url
+              : "";
+            return (
+              '<div class="cart-item">' +
+              '<div class="cart-item-img">' +
+              (imgSrc
+                ? '<img src="' +
+                  imgSrc +
+                  '" alt="' +
+                  escapeHtml(item.name) +
+                  '" />'
+                : '<div class="cart-item-no-img">No image</div>') +
+              "</div>" +
+              '<div class="cart-item-details">' +
+              '<h4>' +
+              escapeHtml(item.name) +
+              "</h4>" +
+              '<p class="cart-item-price">KSh ' +
+              Number(item.price).toLocaleString() +
+              "</p>" +
+              '<div class="cart-item-qty">' +
+              '<button onclick="updateQuantity(' +
+              item.productId +
+              ", " +
+              (item.quantity - 1) +
+              ')">-</button>' +
+              "<span>" +
+              item.quantity +
+              "</span>" +
+              '<button onclick="updateQuantity(' +
+              item.productId +
+              ", " +
+              (item.quantity + 1) +
+              ')">+</button>' +
+              "</div>" +
+              "</div>" +
+              '<button class="cart-item-remove" onclick="removeFromCart(' +
+              item.productId +
+              ')" aria-label="Remove item">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+              "<line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"></line>" +
+              '<line x1="6" y1="6" x2="18" y2="18"></line>' +
+              "</svg>" +
+              "</button>" +
+              "</div>"
+            );
+          })
+          .join("");
+
+        totalEl.textContent = "KSh " + getCartTotal().toLocaleString();
+        footer.style.display = "block";
+      }
+
+      function checkoutViaWhatsApp() {
+        if (cart.length === 0) return;
+        const items = cart
+          .map(
+            (item) =>
+              "- " +
+              item.name +
+              " (KSh " +
+              Number(item.price).toLocaleString() +
+              ") x" +
+              item.quantity
+          )
+          .join("\n");
+        const total = getCartTotal().toLocaleString();
+        const message = encodeURIComponent(
+          "Hi Kicks Mtaani, I'd like to order:\n" +
+            items +
+            "\n\nTotal: KSh " +
+            total +
+            "\nIs everything available?"
+        );
+        window.open("https://wa.me/254794444301?text=" + message, "_blank");
+      }
+
+      /* ─── END CART SYSTEM ─────────────────────────────────────────── */
+
+      function renderProducts() {
+        const grid = document.getElementById("product-grid");
+        const backendBase = API_URL.replace("/api", "");
+
+        let filtered = allLoadedProducts.filter((p) => p.in_stock);
+
+        if (currentCategory !== "all") {
+          filtered = filtered.filter(
+            (p) =>
+              (p.category || "").toLowerCase() ===
+              currentCategory.toLowerCase(),
+          );
+        }
+
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          filtered = filtered.filter(
+            (p) =>
+              (p.name || "").toLowerCase().includes(q) ||
+              (p.description || "").toLowerCase().includes(q) ||
+              (p.category || "").toLowerCase().includes(q),
+          );
+        }
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `<p style="color: #71717a;">No products found.</p>`;
+          return;
+        }
+
+        grid.innerHTML = filtered
+          .map((p) => {
+            const formattedPrice = Number(p.price).toLocaleString();
+
+            return `
+              <div class="product-card" onclick="openProductModal(${p.id})" tabindex="0" role="button" aria-label="View ${escapeHtml(p.name)}">
+                <div class="product-card-img-wrap">
+                  ${
+                    p.image_url
+                      ? `<img src="${backendBase}${p.image_url}" alt="${escapeHtml(p.name)}" loading="lazy" />`
+                      : `<div class="no-img-placeholder">No image</div>`
+                  }
+                </div>
+                <div class="product-card-body">
+                  <span class="product-category">${escapeHtml(p.category || "Basketball")}</span>
+                  <h3 class="product-title">${escapeHtml(p.name)}</h3>
+                  <div class="product-price">KSh ${formattedPrice}</div>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function openProductModal(productId) {
+        const product = allLoadedProducts.find((p) => p.id === productId);
+        if (!product) return;
+
+        const backendBase = API_URL.replace("/api", "");
+        const formattedPrice = Number(product.price).toLocaleString();
+        const waMessage = encodeURIComponent(
+          `Hi Kicks Mtaani, I'd like to order ${product.name} (KSh ${formattedPrice}). Is it available?`,
+        );
+        const waUrl = `https://wa.me/254794444301?text=${waMessage}`;
+
+        const modal = document.getElementById("product-modal");
+        const modalContent = document.getElementById("modal-content");
+
+        modalContent.innerHTML = `
+          <div class="modal-grid">
+            <div class="modal-img-wrap">
+              ${
+                product.image_url
+                  ? `<img src="${backendBase}${product.image_url}" alt="${escapeHtml(product.name)}" />`
+                  : `<div class="no-img-placeholder">No image</div>`
+              }
+            </div>
+            <div class="modal-info">
+              <span class="modal-category">${escapeHtml(product.category || "Basketball")}</span>
+              <h2 class="modal-title">${escapeHtml(product.name)}</h2>
+              <div class="modal-price">KSh ${formattedPrice}</div>
+              ${
+                product.description
+                  ? `<div class="modal-desc-wrap">
+                       <h4 class="modal-desc-heading">Product Details</h4>
+                       <p class="modal-desc">${escapeHtml(product.description)}</p>
+                     </div>`
+                  : ""
+              }
+              <div class="modal-actions">
+                <button class="btn btn-secondary modal-add-cart-btn" onclick="addToCartFromModal()" ${product.in_stock ? "" : "disabled"} style="${!product.in_stock ? "opacity:0.5;cursor:not-allowed;" : ""}">
+                  ${product.in_stock ? "Add to Cart" : "Out of Stock"}
+                </button>
+                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="modal-wa-btn">
+                  Order via WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+
+        currentModalProduct = product;
+
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function addToCartFromModal() {
+        if (currentModalProduct) {
+          addToCart(currentModalProduct);
+          closeProductModal();
+        }
+      }
+
+      function closeProductModal() {
+        const modal = document.getElementById("product-modal");
+        if (!modal) return;
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+
+      async function loadProducts() {
+        const grid = document.getElementById("product-grid");
+        grid.innerHTML = `<p style="color: #71717a">Loading products...</p>`;
+        try {
+          const res = await fetch(`${API_URL}/products?in_stock_only=true`);
+          if (!res.ok) {
+            throw new Error(`Server returned ${res.status}`);
+          }
+          allLoadedProducts = await res.json();
+          renderProducts();
+        } catch (error) {
+          console.error("Failed to load products:", error);
+          grid.innerHTML = `<p style="color: #71717a;">Could not load products. Ensure backend is running at <a href="http://127.0.0.1:8000" target="_blank" style="color:#18181b; text-decoration:underline;">http://127.0.0.1:8000</a></p>`;
+        }
+      }
+
+      // Event handlers
       document.addEventListener("DOMContentLoaded", () => {
         const categoryButtons = document.querySelectorAll(".category-btn");
-        
-        categoryButtons.forEach(btn => {
+        const searchInput = document.getElementById("search-input");
+        const searchBtn = document.getElementById("search-btn");
+        const modal = document.getElementById("product-modal");
+        const modalCloseBtn = document.getElementById("modal-close-btn");
+
+        categoryButtons.forEach((btn) => {
           btn.addEventListener("click", () => {
-            // Remove active from all buttons
-            categoryButtons.forEach(b => b.classList.remove("active"));
-            // Add active to clicked button
+            categoryButtons.forEach((b) => b.classList.remove("active"));
             btn.classList.add("active");
-            // Load products for selected category
-            const category = btn.dataset.category;
-            currentCategory = category;
-            loadProducts(category);
+            currentCategory = btn.dataset.category;
+            renderProducts();
           });
         });
 
+        if (searchInput) {
+          searchInput.addEventListener("input", (e) => {
+            searchQuery = e.target.value;
+            renderProducts();
+          });
+        }
+
+        if (searchBtn && searchInput) {
+          searchBtn.addEventListener("click", () => {
+            document
+              .getElementById("products")
+              .scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => searchInput.focus(), 300);
+          });
+        }
+
+        if (modalCloseBtn) {
+          modalCloseBtn.addEventListener("click", closeProductModal);
+        }
+
+        if (modal) {
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+              closeProductModal();
+            }
+          });
+        }
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            closeProductModal();
+            closeCartDrawer();
+          }
+        });
+
         // Initial load
+        initCart();
         loadProducts();
       });
     </script>

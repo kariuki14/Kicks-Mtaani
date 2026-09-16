@@ -12,36 +12,42 @@ if not API_KEY:
 products = [
     {
         "name": "Nike Kyrie 4",
+        "category": "Shoes",
         "price": 1250.0,
         "description": "Classic Kyrie silhouette, white with orange sole",
         "in_stock": True
     },
     {
         "name": "Nike Kyrie 3",
+        "category": "Shoes",
         "price": 1200.0,
         "description": "Kyrie 3 signature shoe, clean colorway",
         "in_stock": True
     },
     {
         "name": "Nike LeBron Soldier 11",
+        "category": "Shoes",
         "price": 1150.0,
         "description": "LeBron Soldier 11, white with navy straps",
         "in_stock": True
     },
     {
         "name": "Nike LeBron 16",
+        "category": "Shoes",
         "price": 1500.0,
         "description": "LeBron 16, white/red with gold branding",
         "in_stock": True
     },
     {
         "name": "Nike PG",
+        "category": "Shoes",
         "price": 1350.0,
         "description": "Paul George signature, clean all-white",
         "in_stock": True
     },
     {
         "name": "Way of Wade 9",
+        "category": "Shoes",
         "price": 1550.0,
         "description": "Way of Wade 9, purple/black colorway",
         "in_stock": True

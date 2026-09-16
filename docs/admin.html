@@ -12,15 +12,15 @@
        • 10% Accent (Energy / Orange): #ff5500
        ══════════════════════════════════════════════════════════════════ */
     :root {
-      --bg-canvas: #f8f9fa;
+      --bg-canvas: #f6f7f9;
       --bg-surface: #ffffff;
-      --border: #e5e7eb;
-      --border-dark: #27272a;
-      --text-main: #0a0a0a;
-      --text-muted: #6b7280;
-      --secondary-dark: #0a0a0a;
-      --accent: #ff5500;
-      --accent-hover: #e04b00;
+      --border: #e2e4e8;
+      --border-dark: #2e2e34;
+      --text-main: #18181b;
+      --text-muted: #71717a;
+      --secondary-dark: #141416;
+      --accent: #18181b;
+      --accent-hover: #27272a;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -61,8 +61,7 @@
       background: var(--bg-surface);
       border: 1px solid var(--border);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-      border-radius: 12px;
-      padding: 16px 20px;
+      border-radius: 0;
       margin-bottom: 30px;
       display: flex;
       justify-content: space-between;
@@ -90,7 +89,7 @@
       border: 1px solid var(--border);
       color: var(--text-main);
       padding: 9px 12px;
-      border-radius: 6px;
+      border-radius: 0;
       font-size: 13px;
       width: 260px;
       outline: none;
@@ -99,7 +98,7 @@
 
     .auth-input-group input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.15);
+      box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.15);
     }
 
     /* ── ADD PRODUCT FORM ── */
@@ -107,7 +106,7 @@
       background: var(--bg-surface);
       border: 1px solid var(--border);
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-      border-radius: 12px;
+      border-radius: 0;
       padding: 24px;
       margin-bottom: 40px;
     }
@@ -139,21 +138,23 @@
     }
 
     .form-group input,
+    .form-group select,
     .form-group textarea {
       background: #ffffff;
       border: 1px solid var(--border);
       color: var(--text-main);
       padding: 10px 12px;
-      border-radius: 6px;
+      border-radius: 0;
       font-size: 14px;
       outline: none;
       transition: border-color 0.2s;
     }
 
     .form-group input:focus,
+    .form-group select:focus,
     .form-group textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.15);
+      box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.15);
     }
 
     .form-group textarea { resize: vertical; height: 80px; }
@@ -161,7 +162,7 @@
     .btn {
       padding: 10px 22px;
       border: none;
-      border-radius: 6px;
+      border-radius: 0;
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
@@ -169,14 +170,14 @@
     }
 
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 3px 10px rgba(255, 85, 0, 0.25); }
-    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
-    .btn-danger { background: #dc2626; color: #fff; }
-    .btn-danger:hover:not(:disabled) { background: #b91c1c; }
-    .btn-warning { background: #0a0a0a; color: #fff; }
-    .btn-warning:hover:not(:disabled) { background: #262626; }
-    .btn-secondary { background: #f3f4f6; color: #1f2937; border: 1px solid var(--border); }
-    .btn-secondary:hover:not(:disabled) { background: #e5e7eb; }
+    .btn-primary { background: #000000; color: #fff; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); border: 1px solid #000000; }
+    .btn-primary:hover:not(:disabled) { background: #27272a; transform: translateY(-1px); }
+    .btn-danger { background: #000000; color: #fff; border: 1px solid #000000; }
+    .btn-danger:hover:not(:disabled) { background: #27272a; }
+    .btn-warning { background: #000000; color: #fff; border: 1px solid #000000; }
+    .btn-warning:hover:not(:disabled) { background: #27272a; }
+    .btn-secondary { background: #ffffff; color: #000000; border: 1px solid #000000; }
+    .btn-secondary:hover:not(:disabled) { background: #f4f4f5; }
 
     /* ── PRODUCT TABLE ── */
     .products-section h2 {
@@ -188,7 +189,7 @@
 
     .table-container {
       overflow-x: auto;
-      border-radius: 12px;
+      border-radius: 0;
       border: 1px solid var(--border);
       background: var(--bg-surface);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -217,17 +218,16 @@
     tr:hover { background: #f8fafc; }
 
     .badge {
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 3px 8px;
+      border-radius: 0;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 600;
       display: inline-block;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.02em;
     }
 
-    .badge-green { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
-    .badge-red { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .badge-green { background: #f4f4f5; color: #18181b; border: 1px solid #e4e4e7; }
+    .badge-red { background: #ffffff; color: #71717a; border: 1px solid #e4e4e7; }
 
     .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
@@ -235,7 +235,7 @@
       width: 44px;
       height: 44px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 0;
       background: #f3f4f6;
       vertical-align: middle;
       margin-right: 8px;
@@ -250,13 +250,13 @@
       background: var(--secondary-dark);
       color: #fff;
       padding: 12px 24px;
-      border-radius: 8px;
+      border-radius: 0;
       font-size: 14px;
       font-weight: 600;
       display: none;
       z-index: 1000;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      border-left: 4px solid var(--accent);
+      border-left: 4px solid #ffffff;
     }
   </style>
 </head>
@@ -272,8 +272,8 @@
   <!-- AUTHENTICATION STATUS & KEY INPUT -->
   <div class="auth-bar">
     <div class="auth-status" id="auth-status-indicator">
-      <span>🔒 Status:</span>
-      <span class="badge badge-red" id="auth-status-badge">Not Authenticated</span>
+      <span>Status:</span>
+      <span class="badge badge-red" id="auth-status-badge">Key Required</span>
     </div>
     <div class="auth-input-group">
       <input type="password" id="auth-secret-input" placeholder="Enter Admin API Key or JWT Token..." />
@@ -289,6 +289,15 @@
       <div class="form-group">
         <label for="new-name">Product Name *</label>
         <input type="text" id="new-name" placeholder="e.g. Nike Kyrie 5 'Infrared'" />
+      </div>
+      <div class="form-group">
+        <label for="new-category">Category *</label>
+        <select id="new-category">
+          <option value="Shoes">Shoes</option>
+          <option value="Apparel">Apparel</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Other">Other</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="new-price">Price (KSh) *</label>
@@ -311,6 +320,7 @@
           <tr>
             <th>ID</th>
             <th>Product</th>
+            <th>Category</th>
             <th>Price (KSh)</th>
             <th>Description</th>
             <th>Stock</th>
@@ -318,7 +328,7 @@
           </tr>
         </thead>
         <tbody id="products-table">
-          <tr><td colspan="6" style="text-align:center; color:#888;">Loading products...</td></tr>
+          <tr><td colspan="7" style="text-align:center; color:#888;">Loading products...</td></tr>
         </tbody>
       </table>
     </div>
@@ -368,7 +378,7 @@
 
       if (secret) {
         badge.className = "badge badge-green";
-        badge.textContent = "Authenticated";
+        badge.textContent = "Connected";
         input.value = secret;
       } else {
         badge.className = "badge badge-red";
@@ -418,8 +428,9 @@
             <tr>
               <td>${p.id}</td>
               <td>${imgTag}<strong>${escapeHtml(p.name)}</strong></td>
+              <td><span class="badge" style="background:#eeeff2; color:#18181b; border:1px solid #e2e4e8;">${escapeHtml(p.category || 'Other')}</span></td>
               <td>KSh ${Number(p.price).toLocaleString()}</td>
-              <td style="color:#aaa;">${escapeHtml(p.description) || "—"}</td>
+              <td style="color:#71717a;">${escapeHtml(p.description) || "—"}</td>
               <td>
                 <span class="badge ${p.in_stock ? 'badge-green' : 'badge-red'}">
                   ${p.in_stock ? "In Stock" : "Out of Stock"}
@@ -430,7 +441,7 @@
                   ${p.in_stock ? "Mark Out" : "Mark In"}
                 </button>
                 <button class="btn btn-secondary" onclick="triggerUpload(${p.id})">
-                  📷 Image
+                  Upload Image
                 </button>
                 <button class="btn btn-danger" onclick="deleteProduct(${p.id})">
                   Delete
@@ -440,13 +451,14 @@
           `;
         }).join("");
       } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#f87171;">Failed to load products: ${escapeHtml(err.message)}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#f87171;">Failed to load products: ${escapeHtml(err.message)}</td></tr>`;
       }
     }
 
     // ── ADD PRODUCT ──
     async function addProduct() {
       const name = document.getElementById("new-name").value.trim();
+      const category = document.getElementById("new-category").value;
       const priceVal = document.getElementById("new-price").value;
       const price = parseFloat(priceVal);
       const description = document.getElementById("new-description").value.trim();
@@ -465,7 +477,7 @@
         const res = await fetch(`${API_URL}/products`, {
           method: "POST",
           headers: headers,
-          body: JSON.stringify({ name, price, description, in_stock: true })
+          body: JSON.stringify({ name, category, price, description, in_stock: true })
         });
 
         if (res.status === 401 || res.status === 403) {
@@ -589,7 +601,9 @@
     function showToast(message, type = "success") {
       const toast = document.getElementById("toast");
       toast.textContent = message;
-      toast.style.background = type === "error" ? "#dc2626" : "#cc5500";
+      toast.style.background = "#000000";
+      toast.style.color = "#ffffff";
+      toast.style.border = "1px solid #27272a";
       toast.style.display = "block";
       setTimeout(() => { toast.style.display = "none"; }, 3500);
     }
