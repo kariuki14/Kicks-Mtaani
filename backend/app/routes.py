@@ -2,6 +2,7 @@ import os
 import shutil
 import uuid
 import time
+import imghdr
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Request, status
 from sqlalchemy.orm import Session
@@ -84,9 +85,9 @@ def register_user(user_in: UserCreate, request: Request, db: Session = Depends(g
             detail="A user with this email already exists"
         )
     
-    # First registered user automatically gets admin role for easier bootstrap
-    total_users = db.query(User).count()
-    assigned_role = "admin" if total_users == 0 else (user_in.role or "customer")
+    # SECURITY FIX: Disabled auto-admin to prevent privilege escalation attacks
+    # Admin users must be created manually via database or secure seed script
+    assigned_role = "customer"  # Always assign customer role on registration
 
     new_user = User(
         email=user_in.email.lower(),
@@ -241,18 +242,28 @@ def upload_image(
             detail=f"Invalid content-type '{file.content_type}'. Allowed: {sorted(list(ALLOWED_IMAGE_TYPES))}"
         )
 
-    # Sanitize and generate safe unique filename
-    safe_filename = _sanitize_filename(file.filename)
-    target_path = os.path.join(UPLOAD_DIR, safe_filename)
-
-    # Read and enforce file size
+    # SECURITY FIX: Validate file content using magic bytes to prevent malicious file uploads
     file_bytes = file.file.read(MAX_FILE_SIZE + 1)
     if len(file_bytes) > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
             detail=f"File exceeds maximum allowed size of {MAX_FILE_SIZE // (1024 * 1024)}MB"
         )
+    
+    # Verify file is actually an image using imghdr (checks magic bytes)
     file.file.seek(0)
+    detected_type = imghdr.what(None, file_bytes[:512])  # Check first 512 bytes for magic number
+    if not detected_type or detected_type not in ['jpeg', 'png', 'webp', 'gif']:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"File content is not a valid image. Detected: {detected_type or 'unknown'}"
+        )
+    
+    file.file.seek(0)
+
+    # Sanitize and generate safe unique filename
+    safe_filename = _sanitize_filename(file.filename)
+    target_path = os.path.join(UPLOAD_DIR, safe_filename)
 
     # Save safely to disk
     with open(target_path, "wb") as buffer:

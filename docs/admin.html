@@ -351,7 +351,7 @@
 
     // ── AUTHENTICATION MANAGEMENT ──
     function getAuthHeaders() {
-      const secret = sessionStorage.getItem("kicks_admin_secret");
+      const secret = localStorage.getItem("kicks_admin_secret");
       if (!secret) return {};
       // If secret starts with ey (JWT token), send Bearer header, otherwise X-API-Key
       if (secret.startsWith("ey")) {
@@ -361,7 +361,7 @@
     }
 
     function updateAuthStatus() {
-      const secret = sessionStorage.getItem("kicks_admin_secret");
+      const secret = localStorage.getItem("kicks_admin_secret");
       const badge = document.getElementById("auth-status-badge");
       const input = document.getElementById("auth-secret-input");
 
@@ -381,13 +381,13 @@
         showToast("Please enter a valid API Key or JWT token", "error");
         return;
       }
-      sessionStorage.setItem("kicks_admin_secret", secret);
+      localStorage.setItem("kicks_admin_secret", secret);
       updateAuthStatus();
       showToast("Authentication secret saved for this session");
     }
 
     function clearAuthSecret() {
-      sessionStorage.removeItem("kicks_admin_secret");
+      localStorage.removeItem("kicks_admin_secret");
       document.getElementById("auth-secret-input").value = "";
       updateAuthStatus();
       showToast("Authentication secret cleared");

@@ -1,14 +1,37 @@
-# Python
-backend/venv/
-backend/__pycache__/
-backend/*.pyc
-backend/*.db
-backend/app/uploads/*
-!backend/app/uploads/.gitkeep
+```
+# Database
+*.db
 
 # Environment
-backend/.env
+.env
+.env.local
+.env.*
+
+# Dependencies
+.venv/
+venv/
+__pycache__/
+*.pyc
+*$py.class
+
+# Logs
+*.log
+
+# Editors
+.vscode/
+.idea/
 
 # OS
 .DS_Store
-backend/app/__pycache__/
+Thumbs.db
+
+# Coverage
+.coverage
+coverage/
+htmlcov/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+```

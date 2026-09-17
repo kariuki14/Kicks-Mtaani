@@ -17,7 +17,11 @@ load_dotenv()
 
 # Configuration
 ADMIN_API_KEY = os.getenv("ADMIN_API_KEY")
-JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "kicks-mtaani-default-dev-secret-change-in-prod")
+if not ADMIN_API_KEY:
+    raise RuntimeError("ADMIN_API_KEY environment variable must be set. Generate a secure key using: openssl rand -hex 32")
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+if not JWT_SECRET_KEY:
+    raise RuntimeError("JWT_SECRET_KEY environment variable must be set. Generate a secure key using: openssl rand -hex 32")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
