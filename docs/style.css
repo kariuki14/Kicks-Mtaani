@@ -774,8 +774,8 @@ main {
 /* ─── FLOATING WHATSAPP BUTTON ─────────────────────────────────── */
 .floating-wa-btn {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 16px;
+  right: 16px;
   z-index: 50;
   width: 48px;
   height: 48px;
@@ -1037,10 +1037,19 @@ footer {
   align-items: start;
 }
 
+@media (max-width: 900px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
 .footer-col {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .footer-col h4 {
