@@ -1,5 +1,6 @@
 import os
 import hmac
+import logging
 import bcrypt
 from datetime import datetime, timedelta, timezone
 from typing import Optional
@@ -10,19 +11,30 @@ from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 
-from app.database import get_db
+from app.database import get_db, DATABASE_URL
 from app.models import User
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
+
 # Configuration
 ADMIN_API_KEY = os.getenv("ADMIN_API_KEY")
-if not ADMIN_API_KEY:
-    raise RuntimeError("ADMIN_API_KEY environment variable must be set. Generate a secure key using: openssl rand -hex 32")
-JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-if not JWT_SECRET_KEY:
-    raise RuntimeError("JWT_SECRET_KEY environment variable must be set. Generate a secure key using: openssl rand -hex 32")
+_DEFAULT_DEV_SECRET = "kicks-mtaani-default-dev-secret-change-in-prod"
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", _DEFAULT_DEV_SECRET)
 ALGORITHM = "HS256"
+
+# Fail fast if the default dev secret is used in a production-like environment
+if JWT_SECRET_KEY == _DEFAULT_DEV_SECRET:
+    if not DATABASE_URL.startswith("sqlite"):
+        raise RuntimeError(
+            "JWT_SECRET_KEY environment variable is not set. "
+            "Refusing to start with the default dev secret against a non-SQLite (production) database."
+        )
+    logger.warning(
+        "JWT_SECRET_KEY not set — using insecure default dev secret. "
+        "Set it via environment variable before deploying."
+    )
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
 # Security Schemes
@@ -31,17 +43,22 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=Fals
 
 
 # ─── PASSWORD HASHING (BCRYPT) ───────────────────────────────────
+# bcrypt operates on at most 72 bytes; longer inputs are truncated deterministically.
+_BCRYPT_MAX_BYTES = 72
+
+
 def get_password_hash(password: str) -> str:
-    """Hash password using bcrypt."""
-    pw_bytes = password.encode("utf-8")
+    """Hash password using bcrypt (truncated to bcrypt's 72-byte limit)."""
+    pw_bytes = password.encode("utf-8")[:_BCRYPT_MAX_BYTES]
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(pw_bytes, salt).decode("utf-8")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify password against bcrypt hash."""
+    """Verify password against bcrypt hash (truncated to bcrypt's 72-byte limit)."""
     try:
-        return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
+        pw_bytes = plain_password.encode("utf-8")[:_BCRYPT_MAX_BYTES]
+        return bcrypt.checkpw(pw_bytes, hashed_password.encode("utf-8"))
     except Exception:
         return False
 
