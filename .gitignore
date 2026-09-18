@@ -1,37 +1,44 @@
 ```
 # Database
-*.db
+kicks_mtaani.db
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
 # Environment
 .env
 .env.local
 .env.*
 
-# Dependencies
-.venv/
-venv/
-__pycache__/
-*.pyc
-*$py.class
-
 # Logs
 *.log
 
-# Editors
+# Coverage
+.coverage
+htmlcov/
+coverage/
+
+# IDE
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Coverage
-.coverage
-coverage/
-htmlcov/
-
 # Build artifacts
 dist/
 build/
-*.egg-info/
+target/
 ```
