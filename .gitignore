@@ -1,14 +1,44 @@
-# Python
-backend/venv/
-backend/__pycache__/
-backend/*.pyc
-backend/*.db
-backend/app/uploads/*
-!backend/app/uploads/.gitkeep
+```
+# Database
+kicks_mtaani.db
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
 # Environment
-backend/.env
+.env
+.env.local
+.env.*
+
+# Logs
+*.log
+
+# Coverage
+.coverage
+htmlcov/
+coverage/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # OS
 .DS_Store
-backend/app/__pycache__/
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+target/
+```
