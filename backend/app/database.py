@@ -21,7 +21,7 @@ elif DATABASE_URL.startswith("postgresql"):
         "pool_recycle": 300,
     })
     # Enforce SSL for remote Postgres (e.g. Render, Neon, Supabase)
-    if "localhost" not in DATABASE_URL and "127.0.0.1" not in DATABASE_URL:
+    if "localhost" not in DATABASE_URL and "127.0.0.1" not in DATABASE_URL and "db" not in DATABASE_URL:
         engine_kwargs["connect_args"] = {"sslmode": "require"}
 
 engine = create_engine(DATABASE_URL, **engine_kwargs)

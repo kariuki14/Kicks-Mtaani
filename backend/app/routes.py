@@ -28,6 +28,11 @@ from app.auth import (
 
 router = APIRouter()
 
+@router.get("/health")
+def health_check():
+    """Service health check endpoint."""
+    return {"status": "healthy"}
+
 # ─── Upload Directory Configuration ──────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
