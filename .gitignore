@@ -1,13 +1,10 @@
-```
 # Database
+*.db
 kicks_mtaani.db
 
-# Docker
-.dockerignore
-Dockerfile
-docker-compose.yml
-
 # Dependencies
+venv/
+.venv/
 node_modules/
 __pycache__/
 *.pyc
@@ -18,6 +15,8 @@ __pycache__/
 .env
 .env.local
 .env.*
+!.env.example
+!.env.docker
 
 # Logs
 *.log
@@ -41,4 +40,3 @@ Thumbs.db
 dist/
 build/
 target/
-```
