@@ -27,7 +27,13 @@ services:
     volumes:
       - ./backend/app/uploads:/app/app/uploads
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -37,6 +43,8 @@ services:
 
   db:
     image: postgres:16-alpine
+    ports:
+      - "5433:5432"
     environment:
       - POSTGRES_USER=${DB_USER:-kicks_user}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -44,7 +52,11 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-kicks_user} -d ${DB_NAME:-kicks_mtaani}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-kicks_user} -d ${DB_NAME:-kicks_mtaani}",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
