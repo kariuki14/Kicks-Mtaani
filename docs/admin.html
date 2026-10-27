@@ -72,6 +72,7 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 16px;
+        padding: 16px 20px;
       }
 
       .auth-status {
@@ -176,6 +177,7 @@
         opacity: 0.5;
         cursor: not-allowed;
       }
+
       .btn-primary,
       .btn-danger,
       .btn-warning {
@@ -183,22 +185,27 @@
         color: #fff;
         border: 1px solid #000000;
       }
+
       .btn-primary {
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
       }
+
       .btn-primary:hover:not(:disabled) {
         background: #27272a;
         transform: translateY(-1px);
       }
+
       .btn-danger:hover:not(:disabled),
       .btn-warning:hover:not(:disabled) {
         background: #27272a;
       }
+
       .btn-secondary {
         background: var(--bg-surface);
         color: #000000;
         border: 1px solid #000000;
       }
+
       .btn-secondary:hover:not(:disabled) {
         background: #f4f4f5;
       }
@@ -241,6 +248,7 @@
       tr:last-child td {
         border-bottom: none;
       }
+
       tr:hover {
         background: #f8fafc;
       }
@@ -258,6 +266,7 @@
         color: #18181b;
         border: 1px solid #e4e4e7;
       }
+
       .badge-red {
         background: var(--bg-surface);
         color: #71717a;
@@ -344,7 +353,6 @@
           <label for="new-category">Category *</label>
           <select id="new-category">
             <option value="Shoes">Shoes</option>
-            <option value="Apparel">Apparel</option>
             <option value="Accessories">Accessories</option>
             <option value="Other">Other</option>
           </select>
@@ -371,8 +379,30 @@
           <label for="new-description">Description</label>
           <textarea
             id="new-description"
-            placeholder="Colorway, details, sizing..."
+            placeholder="General product description..."
           ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="new-size">Size</label>
+          <input type="text" id="new-size" placeholder="e.g. EU 41 / UK 7" />
+        </div>
+        <div class="form-group">
+          <label for="new-condition">Condition</label>
+          <select id="new-condition">
+            <option value="">— Select condition —</option>
+            <option value="New">New</option>
+            <option value="Used - Excellent">Used - Excellent</option>
+            <option value="Used - Good">Used - Good</option>
+            <option value="Used - Fair">Used - Fair</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1">
+          <label for="new-colorway">Colorway</label>
+          <input
+            type="text"
+            id="new-colorway"
+            placeholder="e.g. White/Navy/Orange"
+          />
         </div>
       </div>
       <button
@@ -395,14 +425,16 @@
               <th>Product</th>
               <th>Category</th>
               <th>Price (KSh)</th>
-              <th>Description</th>
+              <th>Size</th>
+              <th>Condition</th>
+              <th>Colorway</th>
               <th>Stock</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody id="products-table">
             <tr>
-              <td colspan="7" style="text-align: center; color: #888">
+              <td colspan="9" style="text-align: center; color: #888">
                 Loading products...
               </td>
             </tr>
@@ -424,7 +456,6 @@
     <div class="toast" id="toast"></div>
 
     <script>
-      // Detect environment or fallback to current host / Render
       const API_URL =
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
@@ -434,7 +465,6 @@
       let loadedProducts = [];
       let pendingUploadProductId = null;
 
-      // ── HTML SANITIZER (PREVENTS XSS) ──
       function escapeHtml(str) {
         if (str === null || str === undefined) return "";
         return String(str)
@@ -445,11 +475,9 @@
           .replace(/'/g, "&#039;");
       }
 
-      // ── AUTHENTICATION MANAGEMENT ──
       function getAuthHeaders() {
         const secret = localStorage.getItem("kicks_admin_secret");
         if (!secret) return {};
-        // If secret starts with ey (JWT token), send Bearer header, otherwise X-API-Key
         if (secret.startsWith("ey")) {
           return { Authorization: `Bearer ${secret}` };
         }
@@ -460,7 +488,6 @@
         const secret = localStorage.getItem("kicks_admin_secret");
         const badge = document.getElementById("auth-status-badge");
         const input = document.getElementById("auth-secret-input");
-
         if (secret) {
           badge.className = "badge badge-green";
           badge.textContent = "Connected";
@@ -491,7 +518,6 @@
         showToast("Authentication secret cleared");
       }
 
-      // ── LOAD AND RENDER PRODUCTS ──
       async function loadProducts() {
         const tbody = document.getElementById("products-table");
         try {
@@ -500,7 +526,7 @@
           loadedProducts = await res.json();
 
           if (loadedProducts.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888;">No products in catalog yet.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:#888;">No products in catalog yet.</td></tr>`;
             return;
           }
 
@@ -513,38 +539,39 @@
                 : `<span class="product-thumb" style="display:inline-flex; align-items:center; justify-content:center; font-size:10px; color:#666;">No Img</span>`;
 
               return `
-            <tr>
-              <td>${p.id}</td>
-              <td>${imgTag}<strong>${escapeHtml(p.name)}</strong></td>
-              <td><span class="badge" style="background:#eeeff2; color:#18181b; border:1px solid #e2e4e8;">${escapeHtml(p.category || "Other")}</span></td>
-              <td>KSh ${Number(p.price).toLocaleString()}</td>
-              <td style="color:#71717a;">${escapeHtml(p.description) || "—"}</td>
-              <td>
-                <span class="badge ${p.in_stock ? "badge-green" : "badge-red"}">
-                  ${p.in_stock ? "In Stock" : "Out of Stock"}
-                </span>
-              </td>
-              <td class="actions">
-                <button class="btn btn-warning" onclick="toggleStock(${p.id})">
-                  ${p.in_stock ? "Mark Out" : "Mark In"}
-                </button>
-                <button class="btn btn-secondary" onclick="triggerUpload(${p.id})">
-                  Upload Image
-                </button>
-                <button class="btn btn-danger" onclick="deleteProduct(${p.id})">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          `;
+                <tr>
+                  <td>${p.id}</td>
+                  <td>${imgTag}<strong>${escapeHtml(p.name)}</strong></td>
+                  <td><span class="badge" style="background:#eeeff2; color:#18181b; border:1px solid #e2e4e8;">${escapeHtml(p.category || "Other")}</span></td>
+                  <td>KSh ${Number(p.price).toLocaleString()}</td>
+                  <td style="color:#71717a;">${escapeHtml(p.size) || "—"}</td>
+                  <td style="color:#71717a;">${escapeHtml(p.condition) || "—"}</td>
+                  <td style="color:#71717a;">${escapeHtml(p.colorway) || "—"}</td>
+                  <td>
+                    <span class="badge ${p.in_stock ? "badge-green" : "badge-red"}">
+                      ${p.in_stock ? "In Stock" : "Out of Stock"}
+                    </span>
+                  </td>
+                  <td class="actions">
+                    <button class="btn btn-warning" onclick="toggleStock(${p.id})">
+                      ${p.in_stock ? "Mark Out" : "Mark In"}
+                    </button>
+                    <button class="btn btn-secondary" onclick="triggerUpload(${p.id})">
+                      Upload Image
+                    </button>
+                    <button class="btn btn-danger" onclick="deleteProduct(${p.id})">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              `;
             })
             .join("");
         } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#f87171;">Failed to load products: ${escapeHtml(err.message)}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:#f87171;">Failed to load products: ${escapeHtml(err.message)}</td></tr>`;
         }
       }
 
-      // ── ADD PRODUCT ──
       async function addProduct() {
         const name = document.getElementById("new-name").value.trim();
         const category = document.getElementById("new-category").value;
@@ -553,6 +580,9 @@
         const description = document
           .getElementById("new-description")
           .value.trim();
+        const size = document.getElementById("new-size").value.trim();
+        const condition = document.getElementById("new-condition").value;
+        const colorway = document.getElementById("new-colorway").value.trim();
         const imageFile = document.getElementById("new-image").files[0];
 
         if (!name || isNaN(price) || price <= 0) {
@@ -574,6 +604,9 @@
               category,
               price,
               description,
+              size: size || null,
+              condition: condition || null,
+              colorway: colorway || null,
               in_stock: true,
             }),
           });
@@ -590,7 +623,6 @@
             const data = await res.json();
             showToast(`"${name}" added successfully`);
 
-            // Upload image if selected
             if (imageFile) {
               showToast("Uploading image...");
               const formData = new FormData();
@@ -623,7 +655,6 @@
         }
       }
 
-      // ── TOGGLE STOCK ──
       async function toggleStock(id) {
         const product = loadedProducts.find((p) => p.id === id);
         if (!product) return;
@@ -654,7 +685,6 @@
         }
       }
 
-      // ── DELETE PRODUCT ──
       async function deleteProduct(id) {
         const product = loadedProducts.find((p) => p.id === id);
         const name = product ? product.name : `Product #${id}`;
@@ -683,7 +713,6 @@
         }
       }
 
-      // ── IMAGE UPLOAD ──
       function triggerUpload(productId) {
         pendingUploadProductId = productId;
         document.getElementById("image-upload-input").click();
@@ -723,7 +752,6 @@
         }
       }
 
-      // ── TOAST NOTIFICATION ──
       function showToast(message, type = "success") {
         const toast = document.getElementById("toast");
         toast.textContent = message;
@@ -736,7 +764,6 @@
         }, 3500);
       }
 
-      // Initialize
       updateAuthStatus();
       loadProducts();
     </script>

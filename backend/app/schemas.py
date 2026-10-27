@@ -6,11 +6,23 @@ from datetime import datetime
 
 # ─── PRODUCT SCHEMAS ─────────────────────────────────────────────
 class ProductBase(BaseModel):
-    name: str = Field(..., min_length=2, max_length=255, description="Product display name")
-    category: str = Field(default="Other", max_length=100, description="Product category (Shoes, Apparel, Accessories, Other)")
-    price: Decimal = Field(..., gt=0, max_digits=10, decimal_places=2, description="Price in KSh")
-    description: Optional[str] = Field(None, max_length=2000, description="Product description")
-    image_url: Optional[str] = Field(None, max_length=500, description="Image URL or path")
+    name: str = Field(
+        ..., min_length=2, max_length=255, description="Product display name"
+    )
+    category: str = Field(
+        default="Other",
+        max_length=100,
+        description="Product category (Shoes, Accessories, Other)",
+    )
+    price: Decimal = Field(
+        ..., gt=0, max_digits=10, decimal_places=2, description="Price in KSh"
+    )
+    description: Optional[str] = Field(
+        None, max_length=2000, description="Product description"
+    )
+    image_url: Optional[str] = Field(
+        None, max_length=500, description="Image URL or path"
+    )
     in_stock: bool = Field(True, description="Whether product is in stock")
 
 
@@ -40,18 +52,24 @@ EMAIL_REGEX = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 
 
 class UserBase(BaseModel):
-    email: str = Field(..., pattern=EMAIL_REGEX, max_length=255, description="Valid email address")
+    email: str = Field(
+        ..., pattern=EMAIL_REGEX, max_length=255, description="Valid email address"
+    )
 
 
 class UserCreate(UserBase):
-    password: str = Field(..., min_length=8, max_length=72, description="Password must be between 8 and 72 characters")
+    password: str = Field(
+        ...,
+        min_length=8,
+        max_length=72,
+        description="Password must be between 8 and 72 characters",
+    )
     role: Optional[str] = Field("customer", pattern="^(customer|admin)$")
 
 
 class UserLogin(BaseModel):
     email: str = Field(..., pattern=EMAIL_REGEX, max_length=255)
     password: str = Field(..., min_length=1, max_length=72)
-
 
 
 class UserResponse(UserBase):
