@@ -55,6 +55,10 @@ docker-compose up --build -d
 
 The `-d` flag runs containers in detached mode (background).
 
+The backend container applies pending Alembic migrations (`alembic upgrade head`) automatically before starting uvicorn.
+
+For multi-replica deployments, run `alembic upgrade head` as a single pre-deploy job instead of relying on concurrent container startup.
+
 ### 4. Verify Deployment
 
 Check if all services are running:
@@ -132,6 +136,10 @@ docker-compose exec db pg_dump -U kicks_user kicks_mtaani > backup.sql
 
 # Restore database
 cat backup.sql | docker-compose exec -T db psql -U kicks_user -d kicks_mtaani
+
+# Show / apply schema migrations
+docker-compose exec backend alembic current
+docker-compose exec backend alembic upgrade head
 ```
 
 ## Health Checks

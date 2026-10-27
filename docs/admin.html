@@ -1,431 +1,526 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kicks Mtaani Admin</title>
-  <style>
-    /* ══════════════════════════════════════════════════════════════════
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kicks Mtaani Admin</title>
+    <style>
+      /* ══════════════════════════════════════════════════════════════════
        60-30-10 COLOR PALETTE:
        • 60% Dominant (Canvas / Whites): #ffffff & #f8f9fa
        • 30% Secondary (Structure / Blacks): #0a0a0a & #121212
        • 10% Accent (Energy / Black): #18181b
        ══════════════════════════════════════════════════════════════════ */
-    :root {
-      --bg-canvas: #f6f7f9;
-      --bg-surface: #ffffff;
-      --border: #e2e4e8;
-      --border-dark: #2e2e34;
-      --text-main: #18181b;
-      --text-muted: #71717a;
-      --secondary-dark: #141416;
-      --accent: #18181b;
-      --accent-hover: #27272a;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--bg-canvas);
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      padding: 40px 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    h1 {
-      color: var(--secondary-dark);
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-    }
-
-    p.subtitle {
-      color: var(--text-muted);
-      font-size: 14px;
-      margin-top: 4px;
-    }
-
-    /* ── AUTH CARD ── */
-    .auth-bar {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-      margin-bottom: 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .auth-status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .auth-input-group {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .auth-input-group input {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 9px 12px;
-      font-size: 13px;
-      width: 260px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .auth-input-group input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.15);
-    }
-
-    /* ── ADD PRODUCT FORM ── */
-    .form-section {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-      padding: 24px;
-      margin-bottom: 40px;
-    }
-
-    .form-section h2 {
-      color: var(--secondary-dark);
-      margin-bottom: 20px;
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 10px 12px;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.15);
-    }
-
-    .form-group textarea { resize: vertical; height: 80px; }
-
-    .btn {
-      padding: 10px 22px;
-      border: none;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-primary, .btn-danger, .btn-warning { background: #000000; color: #fff; border: 1px solid #000000; }
-    .btn-primary { box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); }
-    .btn-primary:hover:not(:disabled) { background: #27272a; transform: translateY(-1px); }
-    .btn-danger:hover:not(:disabled), .btn-warning:hover:not(:disabled) { background: #27272a; }
-    .btn-secondary { background: var(--bg-surface); color: #000000; border: 1px solid #000000; }
-    .btn-secondary:hover:not(:disabled) { background: #f4f4f5; }
-
-    /* ── PRODUCT TABLE ── */
-    .products-section h2 {
-      color: var(--secondary-dark);
-      margin-bottom: 20px;
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .table-container {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      background: var(--bg-surface);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--bg-surface);
-    }
-
-    thead {
-      background: var(--secondary-dark);
-      color: #fff;
-    }
-
-    th, td {
-      padding: 14px 16px;
-      text-align: left;
-      font-size: 14px;
-      border-bottom: 1px solid #f1f5f9;
-      color: var(--text-main);
-    }
-
-    tr:last-child td { border-bottom: none; }
-    tr:hover { background: #f8fafc; }
-
-    .badge {
-      padding: 3px 8px;
-      font-size: 12px;
-      font-weight: 600;
-      display: inline-block;
-      letter-spacing: 0.02em;
-    }
-
-    .badge-green { background: #f4f4f5; color: #18181b; border: 1px solid #e4e4e7; }
-    .badge-red { background: var(--bg-surface); color: #71717a; border: 1px solid #e4e4e7; }
-
-    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .product-thumb {
-      width: 44px;
-      height: 44px;
-      object-fit: cover;
-      background: #f3f4f6;
-      vertical-align: middle;
-      margin-right: 8px;
-      border: 1px solid var(--border);
-    }
-
-    /* ── TOAST NOTIFICATION ── */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--secondary-dark);
-      color: #fff;
-      padding: 12px 24px;
-      font-size: 14px;
-      font-weight: 600;
-      display: none;
-      z-index: 1000;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      border-left: 4px solid #ffffff;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div>
-      <h1>Kicks Mtaani Admin</h1>
-      <p class="subtitle">Secure management dashboard — Nakuru basketball merch.</p>
-    </div>
-  </header>
-
-  <!-- AUTHENTICATION STATUS & KEY INPUT -->
-  <div class="auth-bar">
-    <div class="auth-status" id="auth-status-indicator">
-      <span>Status:</span>
-      <span class="badge badge-red" id="auth-status-badge">Key Required</span>
-    </div>
-    <div class="auth-input-group">
-      <input type="password" id="auth-secret-input" placeholder="Enter Admin API Key or JWT Token..." />
-      <button class="btn btn-primary" onclick="saveAuthSecret()">Save Secret</button>
-      <button class="btn btn-secondary" onclick="clearAuthSecret()">Clear</button>
-    </div>
-  </div>
-
-  <!-- ADD PRODUCT FORM -->
-  <div class="form-section">
-    <h2>Add New Product</h2>
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="new-name">Product Name *</label>
-        <input type="text" id="new-name" placeholder="e.g. Nike Kyrie 5 'Infrared'" />
-      </div>
-      <div class="form-group">
-        <label for="new-category">Category *</label>
-        <select id="new-category">
-          <option value="Shoes">Shoes</option>
-          <option value="Apparel">Apparel</option>
-          <option value="Accessories">Accessories</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="new-price">Price (KSh) *</label>
-        <input type="number" id="new-price" min="0" step="0.01" placeholder="e.g. 1300" />
-      </div>
-      <div class="form-group">
-        <label for="new-image">Product Image (optional)</label>
-        <input type="file" id="new-image" accept="image/jpeg,image/png,image/webp,image/gif" />
-      </div>
-      <div class="form-group" style="grid-column: 1 / -1;">
-        <label for="new-description">Description</label>
-        <textarea id="new-description" placeholder="Colorway, details, sizing..."></textarea>
-      </div>
-    </div>
-    <button class="btn btn-primary" id="btn-add-product" onclick="addProduct()">Add Product</button>
-  </div>
-
-  <!-- PRODUCTS TABLE -->
-  <div class="products-section">
-    <h2>Current Products</h2>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Product</th>
-            <th>Category</th>
-            <th>Price (KSh)</th>
-            <th>Description</th>
-            <th>Stock</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="products-table">
-          <tr><td colspan="7" style="text-align:center; color:#888;">Loading products...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- HIDDEN FILE INPUT FOR IMAGE UPLOADS -->
-  <input type="file" id="image-upload-input" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="handleImageSelected(event)" />
-
-  <!-- TOAST -->
-  <div class="toast" id="toast"></div>
-
-  <script>
-    // Detect environment or fallback to current host / Render
-    const API_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
-      ? "http://127.0.0.1:8000/api"
-      : "https://kicks-mtaani-api.onrender.com/api";
-
-    let loadedProducts = [];
-    let pendingUploadProductId = null;
-
-    // ── HTML SANITIZER (PREVENTS XSS) ──
-    function escapeHtml(str) {
-      if (str === null || str === undefined) return "";
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    // ── AUTHENTICATION MANAGEMENT ──
-    function getAuthHeaders() {
-      const secret = localStorage.getItem("kicks_admin_secret");
-      if (!secret) return {};
-      // If secret starts with ey (JWT token), send Bearer header, otherwise X-API-Key
-      if (secret.startsWith("ey")) {
-        return { "Authorization": `Bearer ${secret}` };
+      :root {
+        --bg-canvas: #f6f7f9;
+        --bg-surface: #ffffff;
+        --border: #e2e4e8;
+        --border-dark: #2e2e34;
+        --text-main: #18181b;
+        --text-muted: #71717a;
+        --secondary-dark: #141416;
+        --accent: #18181b;
+        --accent-hover: #27272a;
       }
-      return { "X-API-Key": secret };
-    }
 
-    function updateAuthStatus() {
-      const secret = localStorage.getItem("kicks_admin_secret");
-      const badge = document.getElementById("auth-status-badge");
-      const input = document.getElementById("auth-secret-input");
-
-      if (secret) {
-        badge.className = "badge badge-green";
-        badge.textContent = "Connected";
-        input.value = secret;
-      } else {
-        badge.className = "badge badge-red";
-        badge.textContent = "Key Required";
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-    }
 
-    function saveAuthSecret() {
-      const secret = document.getElementById("auth-secret-input").value.trim();
-      if (!secret) {
-        showToast("Please enter a valid API Key or JWT token", "error");
-        return;
+      body {
+        background: var(--bg-canvas);
+        color: var(--text-main);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        padding: 40px 24px;
+        max-width: 1200px;
+        margin: 0 auto;
       }
-      localStorage.setItem("kicks_admin_secret", secret);
-      updateAuthStatus();
-      showToast("Authentication secret saved for this session");
-    }
 
-    function clearAuthSecret() {
-      localStorage.removeItem("kicks_admin_secret");
-      document.getElementById("auth-secret-input").value = "";
-      updateAuthStatus();
-      showToast("Authentication secret cleared");
-    }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
 
-    // ── LOAD AND RENDER PRODUCTS ──
-    async function loadProducts() {
-      const tbody = document.getElementById("products-table");
-      try {
-        const res = await fetch(`${API_URL}/products`);
-        if (!res.ok) throw new Error(`Server returned ${res.status}`);
-        loadedProducts = await res.json();
+      h1 {
+        color: var(--secondary-dark);
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+      }
 
-        if (loadedProducts.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888;">No products in catalog yet.</td></tr>`;
+      p.subtitle {
+        color: var(--text-muted);
+        font-size: 14px;
+        margin-top: 4px;
+      }
+
+      /* ── AUTH CARD ── */
+      .auth-bar {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .auth-status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .auth-input-group {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .auth-input-group input {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 9px 12px;
+        font-size: 13px;
+        width: 260px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .auth-input-group input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.15);
+      }
+
+      /* ── ADD PRODUCT FORM ── */
+      .form-section {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        padding: 24px;
+        margin-bottom: 40px;
+      }
+
+      .form-section h2 {
+        color: var(--secondary-dark);
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .form-group label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 10px 12px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.15);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        height: 80px;
+      }
+
+      .btn {
+        padding: 10px 22px;
+        border: none;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .btn-primary,
+      .btn-danger,
+      .btn-warning {
+        background: #000000;
+        color: #fff;
+        border: 1px solid #000000;
+      }
+      .btn-primary {
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+      }
+      .btn-primary:hover:not(:disabled) {
+        background: #27272a;
+        transform: translateY(-1px);
+      }
+      .btn-danger:hover:not(:disabled),
+      .btn-warning:hover:not(:disabled) {
+        background: #27272a;
+      }
+      .btn-secondary {
+        background: var(--bg-surface);
+        color: #000000;
+        border: 1px solid #000000;
+      }
+      .btn-secondary:hover:not(:disabled) {
+        background: #f4f4f5;
+      }
+
+      /* ── PRODUCT TABLE ── */
+      .products-section h2 {
+        color: var(--secondary-dark);
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .table-container {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        background: var(--bg-surface);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--bg-surface);
+      }
+
+      thead {
+        background: var(--secondary-dark);
+        color: #fff;
+      }
+
+      th,
+      td {
+        padding: 14px 16px;
+        text-align: left;
+        font-size: 14px;
+        border-bottom: 1px solid #f1f5f9;
+        color: var(--text-main);
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover {
+        background: #f8fafc;
+      }
+
+      .badge {
+        padding: 3px 8px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+        letter-spacing: 0.02em;
+      }
+
+      .badge-green {
+        background: #f4f4f5;
+        color: #18181b;
+        border: 1px solid #e4e4e7;
+      }
+      .badge-red {
+        background: var(--bg-surface);
+        color: #71717a;
+        border: 1px solid #e4e4e7;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .product-thumb {
+        width: 44px;
+        height: 44px;
+        object-fit: cover;
+        background: #f3f4f6;
+        vertical-align: middle;
+        margin-right: 8px;
+        border: 1px solid var(--border);
+      }
+
+      /* ── TOAST NOTIFICATION ── */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: var(--secondary-dark);
+        color: #fff;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        display: none;
+        z-index: 1000;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        border-left: 4px solid #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Kicks Mtaani Admin</h1>
+        <p class="subtitle">
+          Secure management dashboard — Nakuru basketball merch.
+        </p>
+      </div>
+    </header>
+
+    <!-- AUTHENTICATION STATUS & KEY INPUT -->
+    <div class="auth-bar">
+      <div class="auth-status" id="auth-status-indicator">
+        <span>Status:</span>
+        <span class="badge badge-red" id="auth-status-badge">Key Required</span>
+      </div>
+      <div class="auth-input-group">
+        <input
+          type="password"
+          id="auth-secret-input"
+          placeholder="Enter Admin API Key or JWT Token..."
+        />
+        <button class="btn btn-primary" onclick="saveAuthSecret()">
+          Save Secret
+        </button>
+        <button class="btn btn-secondary" onclick="clearAuthSecret()">
+          Clear
+        </button>
+      </div>
+    </div>
+
+    <!-- ADD PRODUCT FORM -->
+    <div class="form-section">
+      <h2>Add New Product</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="new-name">Product Name *</label>
+          <input
+            type="text"
+            id="new-name"
+            placeholder="e.g. Nike Kyrie 5 'Infrared'"
+          />
+        </div>
+        <div class="form-group">
+          <label for="new-category">Category *</label>
+          <select id="new-category">
+            <option value="Shoes">Shoes</option>
+            <option value="Apparel">Apparel</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="new-price">Price (KSh) *</label>
+          <input
+            type="number"
+            id="new-price"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 1300"
+          />
+        </div>
+        <div class="form-group">
+          <label for="new-image">Product Image (optional)</label>
+          <input
+            type="file"
+            id="new-image"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+          />
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1">
+          <label for="new-description">Description</label>
+          <textarea
+            id="new-description"
+            placeholder="Colorway, details, sizing..."
+          ></textarea>
+        </div>
+      </div>
+      <button
+        class="btn btn-primary"
+        id="btn-add-product"
+        onclick="addProduct()"
+      >
+        Add Product
+      </button>
+    </div>
+
+    <!-- PRODUCTS TABLE -->
+    <div class="products-section">
+      <h2>Current Products</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Price (KSh)</th>
+              <th>Description</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-table">
+            <tr>
+              <td colspan="7" style="text-align: center; color: #888">
+                Loading products...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HIDDEN FILE INPUT FOR IMAGE UPLOADS -->
+    <input
+      type="file"
+      id="image-upload-input"
+      accept="image/jpeg,image/png,image/webp"
+      style="display: none"
+      onchange="handleImageSelected(event)"
+    />
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // Detect environment or fallback to current host / Render
+      const API_URL =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+          ? "http://127.0.0.1:8001/api"
+          : "https://kicks-mtaani-api.onrender.com/api";
+
+      let loadedProducts = [];
+      let pendingUploadProductId = null;
+
+      // ── HTML SANITIZER (PREVENTS XSS) ──
+      function escapeHtml(str) {
+        if (str === null || str === undefined) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      // ── AUTHENTICATION MANAGEMENT ──
+      function getAuthHeaders() {
+        const secret = localStorage.getItem("kicks_admin_secret");
+        if (!secret) return {};
+        // If secret starts with ey (JWT token), send Bearer header, otherwise X-API-Key
+        if (secret.startsWith("ey")) {
+          return { Authorization: `Bearer ${secret}` };
+        }
+        return { "X-API-Key": secret };
+      }
+
+      function updateAuthStatus() {
+        const secret = localStorage.getItem("kicks_admin_secret");
+        const badge = document.getElementById("auth-status-badge");
+        const input = document.getElementById("auth-secret-input");
+
+        if (secret) {
+          badge.className = "badge badge-green";
+          badge.textContent = "Connected";
+          input.value = secret;
+        } else {
+          badge.className = "badge badge-red";
+          badge.textContent = "Key Required";
+        }
+      }
+
+      function saveAuthSecret() {
+        const secret = document
+          .getElementById("auth-secret-input")
+          .value.trim();
+        if (!secret) {
+          showToast("Please enter a valid API Key or JWT token", "error");
           return;
         }
+        localStorage.setItem("kicks_admin_secret", secret);
+        updateAuthStatus();
+        showToast("Authentication secret saved for this session");
+      }
 
-        const backendBase = API_URL.replace("/api", "");
+      function clearAuthSecret() {
+        localStorage.removeItem("kicks_admin_secret");
+        document.getElementById("auth-secret-input").value = "";
+        updateAuthStatus();
+        showToast("Authentication secret cleared");
+      }
 
-        tbody.innerHTML = loadedProducts.map(p => {
-          const imgTag = p.image_url
-            ? `<img src="${backendBase}${p.image_url}" class="product-thumb" alt="${escapeHtml(p.name)}" />`
-            : `<span class="product-thumb" style="display:inline-flex; align-items:center; justify-content:center; font-size:10px; color:#666;">No Img</span>`;
+      // ── LOAD AND RENDER PRODUCTS ──
+      async function loadProducts() {
+        const tbody = document.getElementById("products-table");
+        try {
+          const res = await fetch(`${API_URL}/products`);
+          if (!res.ok) throw new Error(`Server returned ${res.status}`);
+          loadedProducts = await res.json();
 
-          return `
+          if (loadedProducts.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888;">No products in catalog yet.</td></tr>`;
+            return;
+          }
+
+          const backendBase = API_URL.replace("/api", "");
+
+          tbody.innerHTML = loadedProducts
+            .map((p) => {
+              const imgTag = p.image_url
+                ? `<img src="${backendBase}${p.image_url}" class="product-thumb" alt="${escapeHtml(p.name)}" />`
+                : `<span class="product-thumb" style="display:inline-flex; align-items:center; justify-content:center; font-size:10px; color:#666;">No Img</span>`;
+
+              return `
             <tr>
               <td>${p.id}</td>
               <td>${imgTag}<strong>${escapeHtml(p.name)}</strong></td>
-              <td><span class="badge" style="background:#eeeff2; color:#18181b; border:1px solid #e2e4e8;">${escapeHtml(p.category || 'Other')}</span></td>
+              <td><span class="badge" style="background:#eeeff2; color:#18181b; border:1px solid #e2e4e8;">${escapeHtml(p.category || "Other")}</span></td>
               <td>KSh ${Number(p.price).toLocaleString()}</td>
               <td style="color:#71717a;">${escapeHtml(p.description) || "—"}</td>
               <td>
-                <span class="badge ${p.in_stock ? 'badge-green' : 'badge-red'}">
+                <span class="badge ${p.in_stock ? "badge-green" : "badge-red"}">
                   ${p.in_stock ? "In Stock" : "Out of Stock"}
                 </span>
               </td>
@@ -442,189 +537,208 @@
               </td>
             </tr>
           `;
-        }).join("");
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#f87171;">Failed to load products: ${escapeHtml(err.message)}</td></tr>`;
-      }
-    }
-
-    // ── ADD PRODUCT ──
-    async function addProduct() {
-      const name = document.getElementById("new-name").value.trim();
-      const category = document.getElementById("new-category").value;
-      const priceVal = document.getElementById("new-price").value;
-      const price = parseFloat(priceVal);
-      const description = document.getElementById("new-description").value.trim();
-      const imageFile = document.getElementById("new-image").files[0];
-
-      if (!name || isNaN(price) || price <= 0) {
-        showToast("Valid name and positive price are required", "error");
-        return;
+            })
+            .join("");
+        } catch (err) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#f87171;">Failed to load products: ${escapeHtml(err.message)}</td></tr>`;
+        }
       }
 
-      const headers = {
-        "Content-Type": "application/json",
-        ...getAuthHeaders()
-      };
+      // ── ADD PRODUCT ──
+      async function addProduct() {
+        const name = document.getElementById("new-name").value.trim();
+        const category = document.getElementById("new-category").value;
+        const priceVal = document.getElementById("new-price").value;
+        const price = parseFloat(priceVal);
+        const description = document
+          .getElementById("new-description")
+          .value.trim();
+        const imageFile = document.getElementById("new-image").files[0];
 
-      try {
-        const res = await fetch(`${API_URL}/products`, {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify({ name, category, price, description, in_stock: true })
-        });
-
-        if (res.status === 401 || res.status === 403) {
-          showToast("Unauthorized: Please enter a valid Admin Key above", "error");
+        if (!name || isNaN(price) || price <= 0) {
+          showToast("Valid name and positive price are required", "error");
           return;
         }
 
-        if (res.ok) {
-          const data = await res.json();
-          showToast(`"${name}" added successfully`);
-          
-          // Upload image if selected
-          if (imageFile) {
-            showToast("Uploading image...");
-            const formData = new FormData();
-            formData.append("file", imageFile);
-            
-            const uploadRes = await fetch(`${API_URL}/products/${data.id}/upload-image`, {
+        const headers = {
+          "Content-Type": "application/json",
+          ...getAuthHeaders(),
+        };
+
+        try {
+          const res = await fetch(`${API_URL}/products`, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              name,
+              category,
+              price,
+              description,
+              in_stock: true,
+            }),
+          });
+
+          if (res.status === 401 || res.status === 403) {
+            showToast(
+              "Unauthorized: Please enter a valid Admin Key above",
+              "error",
+            );
+            return;
+          }
+
+          if (res.ok) {
+            const data = await res.json();
+            showToast(`"${name}" added successfully`);
+
+            // Upload image if selected
+            if (imageFile) {
+              showToast("Uploading image...");
+              const formData = new FormData();
+              formData.append("file", imageFile);
+
+              const uploadRes = await fetch(
+                `${API_URL}/products/${data.id}/upload-image`,
+                {
+                  method: "POST",
+                  headers: getAuthHeaders(),
+                  body: formData,
+                },
+              );
+
+              if (uploadRes.ok) {
+                showToast("Image uploaded successfully!");
+              } else {
+                const err = await uploadRes.json();
+                showToast(err.detail || "Image upload failed", "error");
+              }
+            }
+
+            loadProducts();
+          } else {
+            const err = await res.json();
+            showToast(err.detail || "Failed to add product", "error");
+          }
+        } catch (err) {
+          showToast("Network error while adding product", "error");
+        }
+      }
+
+      // ── TOGGLE STOCK ──
+      async function toggleStock(id) {
+        const product = loadedProducts.find((p) => p.id === id);
+        if (!product) return;
+
+        try {
+          const res = await fetch(`${API_URL}/products/${id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              ...getAuthHeaders(),
+            },
+            body: JSON.stringify({ in_stock: !product.in_stock }),
+          });
+
+          if (res.status === 401 || res.status === 403) {
+            showToast("Unauthorized: Admin credentials required", "error");
+            return;
+          }
+
+          if (res.ok) {
+            showToast(`Stock updated for ${product.name}`);
+            loadProducts();
+          } else {
+            showToast("Failed to update stock", "error");
+          }
+        } catch (err) {
+          showToast("Network error updating stock", "error");
+        }
+      }
+
+      // ── DELETE PRODUCT ──
+      async function deleteProduct(id) {
+        const product = loadedProducts.find((p) => p.id === id);
+        const name = product ? product.name : `Product #${id}`;
+
+        if (!confirm(`Delete ${name}? This action cannot be undone.`)) return;
+
+        try {
+          const res = await fetch(`${API_URL}/products/${id}`, {
+            method: "DELETE",
+            headers: getAuthHeaders(),
+          });
+
+          if (res.status === 401 || res.status === 403) {
+            showToast("Unauthorized: Admin credentials required", "error");
+            return;
+          }
+
+          if (res.ok) {
+            showToast(`${name} deleted successfully`);
+            loadProducts();
+          } else {
+            showToast("Failed to delete product", "error");
+          }
+        } catch (err) {
+          showToast("Network error deleting product", "error");
+        }
+      }
+
+      // ── IMAGE UPLOAD ──
+      function triggerUpload(productId) {
+        pendingUploadProductId = productId;
+        document.getElementById("image-upload-input").click();
+      }
+
+      async function handleImageSelected(event) {
+        const file = event.target.files[0];
+        if (!file || !pendingUploadProductId) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        showToast("Uploading image...");
+
+        try {
+          const res = await fetch(
+            `${API_URL}/products/${pendingUploadProductId}/upload-image`,
+            {
               method: "POST",
               headers: getAuthHeaders(),
-              body: formData
-            });
-            
-            if (uploadRes.ok) {
-              showToast("Image uploaded successfully!");
-            } else {
-              const err = await uploadRes.json();
-              showToast(err.detail || "Image upload failed", "error");
-            }
+              body: formData,
+            },
+          );
+
+          if (res.ok) {
+            showToast("Image uploaded successfully!");
+            loadProducts();
+          } else {
+            const err = await res.json();
+            showToast(err.detail || "Image upload failed", "error");
           }
-          
-          loadProducts();
-        } else {
-          const err = await res.json();
-          showToast(err.detail || "Failed to add product", "error");
+        } catch (err) {
+          showToast("Error uploading image", "error");
+        } finally {
+          event.target.value = "";
+          pendingUploadProductId = null;
         }
-      } catch (err) {
-        showToast("Network error while adding product", "error");
       }
-    }
 
-    // ── TOGGLE STOCK ──
-    async function toggleStock(id) {
-      const product = loadedProducts.find(p => p.id === id);
-      if (!product) return;
-
-      try {
-        const res = await fetch(`${API_URL}/products/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            ...getAuthHeaders()
-          },
-          body: JSON.stringify({ in_stock: !product.in_stock })
-        });
-
-        if (res.status === 401 || res.status === 403) {
-          showToast("Unauthorized: Admin credentials required", "error");
-          return;
-        }
-
-        if (res.ok) {
-          showToast(`Stock updated for ${product.name}`);
-          loadProducts();
-        } else {
-          showToast("Failed to update stock", "error");
-        }
-      } catch (err) {
-        showToast("Network error updating stock", "error");
+      // ── TOAST NOTIFICATION ──
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.style.background = "#000000";
+        toast.style.color = "#ffffff";
+        toast.style.border = "1px solid #27272a";
+        toast.style.display = "block";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 3500);
       }
-    }
 
-    // ── DELETE PRODUCT ──
-    async function deleteProduct(id) {
-      const product = loadedProducts.find(p => p.id === id);
-      const name = product ? product.name : `Product #${id}`;
-
-      if (!confirm(`Delete ${name}? This action cannot be undone.`)) return;
-
-      try {
-        const res = await fetch(`${API_URL}/products/${id}`, {
-          method: "DELETE",
-          headers: getAuthHeaders()
-        });
-
-        if (res.status === 401 || res.status === 403) {
-          showToast("Unauthorized: Admin credentials required", "error");
-          return;
-        }
-
-        if (res.ok) {
-          showToast(`${name} deleted successfully`);
-          loadProducts();
-        } else {
-          showToast("Failed to delete product", "error");
-        }
-      } catch (err) {
-        showToast("Network error deleting product", "error");
-      }
-    }
-
-    // ── IMAGE UPLOAD ──
-    function triggerUpload(productId) {
-      pendingUploadProductId = productId;
-      document.getElementById("image-upload-input").click();
-    }
-
-    async function handleImageSelected(event) {
-      const file = event.target.files[0];
-      if (!file || !pendingUploadProductId) return;
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      showToast("Uploading image...");
-
-      try {
-        const res = await fetch(`${API_URL}/products/${pendingUploadProductId}/upload-image`, {
-          method: "POST",
-          headers: getAuthHeaders(),
-          body: formData
-        });
-
-        if (res.ok) {
-          showToast("Image uploaded successfully!");
-          loadProducts();
-        } else {
-          const err = await res.json();
-          showToast(err.detail || "Image upload failed", "error");
-        }
-      } catch (err) {
-        showToast("Error uploading image", "error");
-      } finally {
-        event.target.value = "";
-        pendingUploadProductId = null;
-      }
-    }
-
-    // ── TOAST NOTIFICATION ──
-    function showToast(message, type = "success") {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.style.background = "#000000";
-      toast.style.color = "#ffffff";
-      toast.style.border = "1px solid #27272a";
-      toast.style.display = "block";
-      setTimeout(() => { toast.style.display = "none"; }, 3500);
-    }
-
-    // Initialize
-    updateAuthStatus();
-    loadProducts();
-  </script>
-
-</body>
+      // Initialize
+      updateAuthStatus();
+      loadProducts();
+    </script>
+  </body>
 </html>

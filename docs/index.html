@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kicks Mtaani</title>
-    <link rel="stylesheet" href="style.css?v=13" />
+    <link rel="stylesheet" href="style.css?v=16" />
   </head>
   <body>
     <svg aria-hidden="true" style="display: none">
@@ -12,6 +12,57 @@
         <path
           d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"
         />
+      </symbol>
+      <symbol
+        id="pin-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </symbol>
+      <symbol
+        id="phone-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
+        ></path>
+      </symbol>
+      <symbol
+        id="mail-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+        <path d="m22 7-10 6L2 7"></path>
+      </symbol>
+      <symbol
+        id="truck-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M10 17h4V5H2v12h3"></path>
+        <path d="M20 17h2v-5l-3-3h-5v8h3"></path>
+        <circle cx="7.5" cy="17.5" r="2.5"></circle>
+        <circle cx="17.5" cy="17.5" r="2.5"></circle>
       </symbol>
     </svg>
     <header>
@@ -188,7 +239,6 @@
         <div class="category-filter" id="category-filter">
           <button class="category-btn active" data-category="all">All</button>
           <button class="category-btn" data-category="Shoes">Shoes</button>
-          <button class="category-btn" data-category="Apparel">Apparel</button>
           <button class="category-btn" data-category="Accessories">
             Accessories
           </button>
@@ -203,40 +253,121 @@
     <footer id="contact">
       <div class="footer-content">
         <!-- Col 1: Brand -->
-        <div class="footer-col brand-col">
+        <div class="footer-col footer-brand-col">
           <div class="footer-logo-wrap">
             <img
               src="images/logo-white.png"
               alt="Kicks Mtaani Logo"
               class="footer-logo"
+              width="150"
+              height="42"
             />
           </div>
-          <p class="footer-tagline">Nakuru's Go-to Spot for Basketball Merch.</p>
+          <p class="footer-tagline">
+            Nakuru's Go-to Spot for Basketball Merch.
+          </p>
+          <a
+            class="footer-wa-link"
+            href="https://wa.me/254704168486?text=Hi%20Kicks%20Mtaani%2C%20I%27d%20like%20to%20ask%20about%20your%20products."
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="18" height="18" aria-hidden="true">
+              <use href="#wa-icon" />
+            </svg>
+            <span>Chat on WhatsApp</span>
+          </a>
         </div>
 
         <!-- Col 2: Navigation -->
-        <div class="footer-col nav-col">
-          <h4>Quick Links</h4>
-          <nav class="footer-nav">
+        <div class="footer-col">
+          <h4 id="footer-quick-links">Quick Links</h4>
+          <nav class="footer-nav" aria-labelledby="footer-quick-links">
             <a href="#hero">Home</a>
             <a href="#products">Shop</a>
-            <a href="#about">About Us</a>
+            <a href="#contact">Contact</a>
           </nav>
         </div>
 
         <!-- Col 3: Help / Support -->
-        <div class="footer-col support-col">
-          <h4>Help & Support</h4>
-          <nav class="footer-nav">
-            <a href="https://wa.me/254704168486" target="_blank" rel="noopener noreferrer">Order Tracking</a>
-            <a href="#delivery">Delivery Info</a>
-            <a href="https://wa.me/254704168486" target="_blank" rel="noopener noreferrer">WhatsApp Support</a>
+        <div class="footer-col">
+          <h4 id="footer-support">Help & Support</h4>
+          <nav class="footer-nav" aria-labelledby="footer-support">
+            <a
+              href="https://wa.me/254704168486?text=Hi%20Kicks%20Mtaani%2C%20I%27d%20like%20to%20track%20my%20order."
+              target="_blank"
+              rel="noopener noreferrer"
+              >Order Tracking</a
+            >
+            <a
+              href="https://wa.me/254704168486?text=Hi%20Kicks%20Mtaani%2C%20please%20share%20delivery%20details%20for%20Nakuru."
+              target="_blank"
+              rel="noopener noreferrer"
+              >Delivery Info</a
+            >
+            <a
+              href="https://wa.me/254704168486?text=Hi%20Kicks%20Mtaani%2C%20what%20is%20your%20returns%20and%20exchanges%20policy%3F"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Returns & Exchanges</a
+            >
+            <a
+              href="https://wa.me/254704168486?text=Hi%20Kicks%20Mtaani%2C%20I%20have%20a%20question."
+              target="_blank"
+              rel="noopener noreferrer"
+              >FAQs</a
+            >
           </nav>
+        </div>
+
+        <!-- Col 4: Location & Contact -->
+        <div class="footer-col">
+          <h4 id="footer-contact">Visit & Contact</h4>
+          <ul class="footer-contact-list" aria-labelledby="footer-contact">
+            <li>
+              <svg width="16" height="16" aria-hidden="true">
+                <use href="#pin-icon" />
+              </svg>
+              <span>Nakuru, Kenya</span>
+            </li>
+            <li>
+              <a href="tel:+254704168486">
+                <svg width="16" height="16" aria-hidden="true">
+                  <use href="#phone-icon" />
+                </svg>
+                <span>+254 704 168486</span>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:wanjirasimon9@gmail.com">
+                <svg width="16" height="16" aria-hidden="true">
+                  <use href="#mail-icon" />
+                </svg>
+                <span>wanjirasimon9@gmail.com</span>
+              </a>
+            </li>
+          </ul>
+          <p class="footer-payment">
+            <span>We accept</span>
+            <span class="payment-badge">M-Pesa</span>
+          </p>
         </div>
       </div>
 
       <div class="footer-bottom">
         <p class="footer-copy">© 2026 Kicks Mtaani. All rights reserved.</p>
+        <ul class="footer-trust" aria-label="Payment and delivery options">
+          <li class="trust-item">
+            <span class="trust-dot" aria-hidden="true"></span>
+            M-Pesa accepted
+          </li>
+          <li class="trust-item">
+            <svg class="trust-icon" width="15" height="15" aria-hidden="true">
+              <use href="#truck-icon" />
+            </svg>
+            Nakuru delivery
+          </li>
+        </ul>
       </div>
     </footer>
 
@@ -349,7 +480,7 @@
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1" ||
         window.location.protocol === "file:"
-          ? "http://127.0.0.1:8000/api"
+          ? "http://127.0.0.1:8001/api"
           : "https://kicks-mtaani-api.onrender.com/api";
 
       const BACKEND_BASE = API_URL.replace("/api", "");
@@ -564,10 +695,7 @@
             "\nIs everything available?",
         );
         window.open(
-          "https://wa.me/" +
-            WHATSAPP_NUMBER +
-            "?text=" +
-            message,
+          "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + message,
           "_blank",
         );
       }

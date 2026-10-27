@@ -2,7 +2,6 @@ import os
 import shutil
 import uuid
 import time
-import imghdr
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Request, status
 from sqlalchemy.orm import Session
@@ -255,9 +254,29 @@ def upload_image(
             detail=f"File exceeds maximum allowed size of {MAX_FILE_SIZE // (1024 * 1024)}MB"
         )
     
-    # Verify file is actually an image using imghdr (checks magic bytes)
+    # Verify file is actually an image using magic bytes (imghdr removed in Python 3.13+)
     file.file.seek(0)
-    detected_type = imghdr.what(None, file_bytes[:512])  # Check first 512 bytes for magic number
+    
+    # Magic bytes for image formats: https://en.wikipedia.org/wiki/List_of_file_signatures
+    def detect_image_type(data: bytes) -> str | None:
+        """Detect image type from magic bytes."""
+        if len(data) < 12:
+            return None
+        # JPEG: FF D8 FF
+        if data[:3] == b'\xff\xd8\xff':
+            return 'jpeg'
+        # PNG: 89 50 4E 47 0D 0A 1A 0A
+        if data[:8] == b'\x89PNG\r\n\x1a\n':
+            return 'png'
+        # GIF: GIF87a or GIF89a
+        if data[:6] in (b'GIF87a', b'GIF89a'):
+            return 'gif'
+        # WebP: RIFF....WEBP
+        if data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+            return 'webp'
+        return None
+    
+    detected_type = detect_image_type(file_bytes[:512])
     if not detected_type or detected_type not in ['jpeg', 'png', 'webp', 'gif']:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

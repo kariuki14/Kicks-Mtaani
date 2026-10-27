@@ -17,7 +17,15 @@ Start both frontend and backend servers with one command:
 
 - **Storefront:** http://127.0.0.1:5500
 - **Admin Panel:** http://127.0.0.1:5500/admin.html
-- **API Docs:** http://127.0.0.1:8000/docs
+- **API Docs:** http://127.0.0.1:8001/docs
+
+Database schema is managed by Alembic. `./start.sh` applies pending migrations before starting the backend.
+
+```bash
+cd backend
+venv/bin/python -m alembic upgrade head   # apply migrations
+venv/bin/python -m alembic current        # show DB revision
+```
 
 ## Live Links
 
